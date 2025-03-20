@@ -1,9 +1,5 @@
-import { Roboto_Slab, Roboto } from "next/font/google";
+import { Roboto_Slab } from "next/font/google";
 import "./globals.css";
-
-const roboto = Roboto({
-  subsets: ["latin"],
-});
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
@@ -19,8 +15,9 @@ export default function RootLayout({ children }) {
     <html lang="pt-br">
       <body
         cz-shortcut-listen="true"
-        className={`${roboto.variable} antialiased h-[100dvh]`}
-      >{children}
+        className={`${robotoSlab.className} h-[100dvh}`}
+      >
+        {children}
       </body>
     </html>
   );
