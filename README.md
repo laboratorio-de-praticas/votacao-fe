@@ -24,25 +24,58 @@ O sistema deve ser seguro, acessível e funcional tanto para usuários internos 
 
 ## ⚙️ Como Rodar o Projeto
 
-### 🔧 Pré-requisitos
+### 🔧 Pré-requisitos com Docker
+
+- [**Git**](https://git-scm.com/downloads)
+- [**Docker**](https://www.docker.com)
+
+#### 🚀 Instalação e Execução
+
+1. Clone o repositório
+    ```bash
+    git clone https://github.com/laboratorio-de-praticas/votacao-fe.git
+    ```
+
+2. Acesse a pasta do projeto
+    ```bash
+    cd votacao-fe
+    ```
+    
+3. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+3. Crie o Contêiner
+    ```bash
+    docker compose up
+    ```
+
+### 🔧 Pré-requisitos sem Docker
 
 Antes de começar, certifique-se de ter instalado:
 
-- [Node.js](https://nodejs.org/)
+- [**Git**](https://git-scm.com/downloads)
+- [**Node.js**](https://nodejs.org/)
 
-### 🚀 Instalação e Execução
+#### 🚀 Instalação e Execução
 
 1. Clone o repositório:
    ```bash
    git clone https://github.com/laboratorio-de-praticas/votacao-fe.git
    ```
+   
+2. Acesse a pasta do projeto
+    ```bash
+    cd votacao-fe
+    ```
 
-2. Instale as dependências:
+3. Instale as dependências:
    ```bash
    npm install
    ```
 
-3. Rodar o sistema em ambiente de desenvolvimento:
+4. Rodar o sistema em ambiente de desenvolvimento:
    ```bash
    npm run dev
    ```
