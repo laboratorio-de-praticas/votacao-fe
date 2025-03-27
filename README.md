@@ -96,19 +96,19 @@ O sistema estará rodando em `http://localhost:3000`.
 - Visitantes deverão fazer um **check-in** na recepção da feira com seu telefone.
 - Para votar, o visitante informará seu telefone para validação.
 - A votação será feita através de um **QR Code** disponível na bancada de cada equipe.
-- Cada visitante poderá votar em quantos projetos quiser desde que seja **apenas um voto por projeto**.
+- Cada visitante poderá votar em quantos projetos quiser, desde que seja apenas um voto por projeto.
 
 ## Votação dos Projetos por Avaliadores Externos
 
-- O avaliador é obrigado a escolher entre dois critérios de avaliação (Projeto acolhedor e Projeto inovador), que serão classificados em 5 estrelas e uma caixa de comentário opcional.
+O avaliador deve avaliar 2 critéios:
+- **Projeto acolhedor** (classificação de 5 estrelas)
+- **Projeto inovador** (classificação de 5 estrelas)
 
-### 🗳️ Tela de Votação
+Além disso, o avaliador pode deixar um comentário opcional.
 
-- Para a escolha do representante, a tela irá conter as informações do candidato junto de um botão **"Votar"**.
-- Para a votação de um projeto da feira, a tela irá conter as informações do projeto junto de um botão **"Votar"**.
-- A interface da votação conterá apenas um botão para registrar o voto.
-- Além do voto, haverá **5 perguntas de avaliação**.
-- As perguntas seguirão um critério de resposta: “ruim”, “bom” e “ótimo” (detalhes ainda a serem definidos).
+🗳️ Tela de Votação
+- Para aluno e convidado, a tela conterá apenas o botão "Votar".
+- Para avaliador, além do botão de votar, será necessário responder os dois critérios de avaliação com a classificação de 5 estrelas e um comentário opcional.
 
 ---
 
