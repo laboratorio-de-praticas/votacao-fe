@@ -24,6 +24,7 @@ export default function VotacaoPublica() {
                                 <Image
                                     size={50}
                                     className="justify-self-center stroke-white"
+                                    alt="Imagem do Projeto"
                                 />
                                 {/* <img src="" alt="" /> */}
                             </div>
