@@ -31,4 +31,6 @@ const FeedbackModal = forwardRef((_, ref) => {
   );
 });
 
+FeedbackModal.displayName = "FeedbackModal";
+
 export default FeedbackModal;
