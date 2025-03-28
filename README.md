@@ -40,7 +40,7 @@ O sistema deve ser seguro, acessível e funcional tanto para usuários internos 
     ```bash
     cd votacao-fe
     ```
-    
+
 3. Instale as dependências:
    ```bash
    npm install
@@ -64,7 +64,7 @@ Antes de começar, certifique-se de ter instalado:
    ```bash
    git clone https://github.com/laboratorio-de-praticas/votacao-fe.git
    ```
-   
+
 2. Acesse a pasta do projeto
     ```bash
     cd votacao-fe
