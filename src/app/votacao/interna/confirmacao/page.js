@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
+import FeedbackModal from "@/components/FeedbackModal/page";
 
 const Header = ({ children }) => (
   <header className="mb-4 md:mb-6 lg:mb-8">
@@ -81,7 +82,11 @@ const ActionButton = ({ children, onClick, className = "" }) => (
 );
 
 const ConfirmationPage = () => {
-  const handleConfirm = () => console.log("Confirmar voto");
+  const modalRef = useRef()
+
+  const handleConfirm = () => {
+    modalRef.current.openModal("Voto validado com sucesso!");
+  };
   const handleReturn = () => console.log("Voltar ao início");
 
   return (
@@ -94,7 +99,10 @@ const ConfirmationPage = () => {
               VOTO QUASE CONFIRMADO!
             </h2>
             <p className="text-[#4A4A4A] text-sm mb-4 text-justify">
-              Parabéns! Seu voto está quase confirmado, verifique ao lado se o candidato é o desejado e confirme logo abaixo. Em breve atualizaremos você sobre o resultado da votação e quem serão os novos representanetes de sua turma!
+              Parabéns! Seu voto está quase confirmado, verifique ao lado se o
+              candidato é o desejado e confirme logo abaixo. Em breve
+              atualizaremos você sobre o resultado da votação e quem serão os
+              novos representanetes de sua turma!
             </p>
           </div>
 
@@ -130,22 +138,29 @@ const ConfirmationPage = () => {
             <h2 className="text-[#004854] font-bold text-3xl lg:text-[40px] mb-4">
               VOTO QUASE CONFIRMADO!
             </h2>
-            
+
             <p className="text-[#4A4A4A] text-xl lg:text-3xl mb-8">
-              Parabéns! Seu voto está quase confirmado, verifique ao lado se o candidato é o desejado e confirme logo abaixo. Em breve atualizaremos você sobre o resultado da votação e quem serão os novos representanetes de sua turma!
+              Parabéns! Seu voto está quase confirmado, verifique ao lado se o
+              candidato é o desejado e confirme logo abaixo. Em breve
+              atualizaremos você sobre o resultado da votação e quem serão os
+              novos representanetes de sua turma!
             </p>
 
             <div className="flex justify-around gap-6">
               <ActionButton onClick={handleConfirm}>
                 CONFIRMAR VOTO
               </ActionButton>
-              <ActionButton onClick={handleReturn} className="bg-gray-600 hover:bg-gray-700">
+              <ActionButton
+                onClick={handleReturn}
+                className="bg-gray-600 hover:bg-gray-700"
+              >
                 VOLTAR AO INÍCIO
               </ActionButton>
             </div>
           </div>
         </div>
       </Header>
+      <FeedbackModal ref={modalRef} />
     </main>
   );
 };
