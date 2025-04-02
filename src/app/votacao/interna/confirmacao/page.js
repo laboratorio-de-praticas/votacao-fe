@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import ConfirmModal from "@/components/confirmModal";
+import Button from "@/components/button";
 
 const Header = ({ children }) => (
   <header className="mb-4 md:mb-6 lg:mb-8">
@@ -70,16 +71,6 @@ const CandidateCard = ({ image, mobileImage, name, email, room }) => (
   </article>
 );
 
-const ActionButton = ({ children, onClick, className = "" }) => (
-  <button
-    onClick={onClick}
-    className={`px-6 py-2 bg-[#9D0000] hover:bg-[#a31515] text-white rounded-[14px] 
-      text-sm md:text-xl xl:text-2xl shadow-md hover:shadow-lg transition-all
-      ${className}`}
-  >
-    {children}
-  </button>
-);
 
 const ConfirmationPage = () => {
   const modalRef = useRef()
@@ -117,9 +108,7 @@ const ConfirmationPage = () => {
 
           <div className="mt-6 w-full">
             <div className="flex flex-col gap-4">
-              <ActionButton onClick={handleConfirm}>
-                CONFIRMAR VOTO
-              </ActionButton>
+              <Button onClick={handleConfirm} text={"CONFIRMAR VOTO"}/>
             </div>
           </div>
         </div>
@@ -148,15 +137,7 @@ const ConfirmationPage = () => {
             </p>
 
             <div className="flex justify-around gap-6">
-              <ActionButton onClick={handleConfirm}>
-                CONFIRMAR VOTO
-              </ActionButton>
-              <ActionButton
-                onClick={handleReturn}
-                className="bg-gray-600 hover:bg-gray-700"
-              >
-                VOLTAR AO INÍCIO
-              </ActionButton>
+              <Button onClick={handleConfirm} text={"CONFIRMAR VOTO"}/>
             </div>
           </div>
         </div>
