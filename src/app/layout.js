@@ -11,9 +11,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
       <body className="font-verdana h-[100dvh]">
-        <div className="flex flex-col p-0 w-full min-h-screen">
+        <div className="flex flex-col min-h-screen">
           <Navbar />
-          {children}
+          <div className="flex-1">
+            {children}
+          </div>
           <Footer />
         </div>
       </body>
