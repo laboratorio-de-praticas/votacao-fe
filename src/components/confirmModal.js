@@ -5,6 +5,7 @@ import React, {
   useRef,
 } from "react";
 import FeedbackModal from "./feedbackModal";
+import Button from "./button";
 
 const ConfirmModal = forwardRef((_, ref) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -55,18 +56,8 @@ const ConfirmModal = forwardRef((_, ref) => {
               </p>
             </div>
             <div className="flex gap-4 md:gap-9 mt-4 md:gap">
-              <button
-                className="bg-[#B20000] text-white rounded-xl shadow-md hover:bg-[#9A0101] md:w-60 md:h-14 w-36 h-8 transition-colors duration-300"
-                onClick={() => setIsConfirmOpen(false)}
-              >
-                <p className="text-lg">VOLTAR</p>
-              </button>
-              <button
-                className="bg-[#B20000] text-white rounded-xl shadow-md hover:bg-[#9A0101] md:w-60 md:h-14 w-36 h-8 transition-colors duration-300"
-                onClick={handleConfirm}
-              >
-                <p className="text-lg">CONFIRMAR</p>
-              </button>
+              <Button onClick={() => setIsConfirmOpen(false)} text={"VOLTAR"}/>
+              <Button onClick={handleConfirm} text={"CONFIRMAR"}/>
             </div>
           </div>
         </div>
