@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import ConfirmModal from "@/components/confirmModal";
+import Button from "@/components/button";
 
 const Header = ({ children }) => (
   <header className="mb-4 md:mb-6 lg:mb-8">

@@ -1,6 +1,8 @@
 "use client";
+import Button from "@/components/button";
 import ConfirmModal from "@/components/confirmModal";
 import { useRef } from "react";
+import Image from "next/image";
 
 export default function VotacaoPublica() {
     const modalRef = useRef()
@@ -22,12 +24,13 @@ export default function VotacaoPublica() {
           <div className="flex flex-col md:flex-row md:w-5/6 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
             <div className="order-2 w-170px w-4/5 md:w-1/3 h-fit bg-[#ffffff] rounded-b-[10px] flex flex-col shadow-gray-400 shadow-md self-center">
               <div className="w-full aspect-video bg-[#cdcdcd] border-none p-0 place-content-center">
-                <img
+                <Image
                   src="/undefinedImage.svg"
                   className="justify-self-center stroke-white w-[50px]"
                   alt="Imagem do Projeto"
+                  width={50}
+                  height={50}
                 />
-                {/* <img src="" alt="" /> */}
               </div>
               <div className="flex flex-col px-5 py-3 hyphens-auto overflow-y-auto min-h-[100px] max-h-[150px] md:min-h-[150px] md:max-h-[200px]">
                 <p className="text-[#004854] font-regular text-[15px] md:text-[24px]">
@@ -52,17 +55,9 @@ export default function VotacaoPublica() {
                 </p>
               </div>
               <div className="hidden md:flex flex-row space-x-6 mt-8 justify-center">
-                <button
-                  className="bg-[#9D0000] text-white h-[50px] w-1/3 rounded-[14px] text-[20px] shadow-gray-400 shadow-md cursor-pointer trasition-all delay-100 hover:opacity-90"
-                  onClick={handleConfirm}
-                >
-                  VOTAR
-                </button>
+                <Button onClick={handleConfirm} text={"VOTAR"}/>
               </div>
             </div>
-            <button className="self-center mb-12 order-3 md:hidden bg-[#9D0000] text-white h-[30px] w-1/2 rounded-[14px] text-[15px] shadow-gray-400 shadow-md cursor-pointer trasition-all delay-100 hover:opacity-80">
-              VOTAR
-            </button>
           </div>
         </div>
         <ConfirmModal ref={modalRef} />
