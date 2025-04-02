@@ -1,6 +1,58 @@
 "use client";
 
+import axios from "axios";
+import { useState, useRef } from "react";
+import FeedbackModal from "@/components/FeedbackModal/page";
+// import { useRouter } from "next/navigation";
+
 export default function VotacaoPublica() {
+    const modalRef = useRef();
+    // const router = useRouter();
+    // aqui é preciso pegar o eventoId, convidadoId e projetoId de onde quer que ele esteja vindo
+    const [votacaoData, setVotacaoData] = useState({
+        eventoId: null,
+        convidadoId: null,
+        projetoId: null,
+    });
+    // usando isSubmitting pode-se aproveitar para por um loop de loading
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState(null);
+    const [submitSuccess, setSubmitSuccess] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSubmitError(null);
+        setIsSubmitting(true);
+
+        // este foi só para teste da chamada do modal
+        // modalRef.current.openModal("Voto enviado com sucesso!");
+
+        try {
+            const response = await axios.post(
+                "http://localhost:3000/votacao/publica/convidados/confirmacao",
+                votacaoData,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
+
+            setSubmitSuccess(true);
+            modalRef.current.openModal("Voto enviado com sucesso!");
+
+            // seria redirecionado para alguma página aqui
+            // router.push("/home");
+        } catch (error) {
+            setSubmitError(
+                error.message ||
+                    "Ocorreu um erro desconhecido ao salvar o voto."
+            );
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <main className="flex flex-col flex-grow items-center justify-start">
             <div className="flex flex-col w-5/6 mt-4 md:mt-16">
@@ -25,8 +77,6 @@ export default function VotacaoPublica() {
                             <p className="text-[#004854] font-regular text-[15px] md:text-[24px]">
                                 {/* Nome do projeto */}
                             </p>
-                            {/* <span className='text-[#004854] font-regular text-[24px]'>
-								</span> */}
                             <p className="text-[#004854] font-regular text-[10px] md:text-[18px]">
                                 Descrição:
                                 <span>{/* Descrição breve */}</span>
@@ -44,17 +94,24 @@ export default function VotacaoPublica() {
                                 confirme em seguida.
                             </p>
                         </div>
-                        <div className="hidden md:flex flex-row space-x-6 mt-8 justify-center">
-                            <button className="bg-[#9D0000] text-white h-[50px] w-1/3 rounded-[14px] text-[20px] shadow-gray-400 shadow-md cursor-pointer trasition-all delay-100 hover:opacity-90">
+                        <div>
+                            <button
+                                onClick={handleSubmit}
+                                className="hidden md:block justify-self-center bg-[#9D0000] text-white h-[50px] w-1/3 rounded-[14px] text-[20px] shadow-gray-400 shadow-md cursor-pointer trasition-all delay-100 hover:opacity-90 "
+                            >
                                 VOTAR
                             </button>
                         </div>
                     </div>
-                    <button className="self-center mb-12 order-3 md:hidden bg-[#9D0000] text-white h-[30px] w-1/2 rounded-[14px] text-[15px] shadow-gray-400 shadow-md cursor-pointer trasition-all delay-100 hover:opacity-80">
+                    <button
+                        onClick={handleSubmit}
+                        className="block md:hidden self-center mb-12 order-3 bg-[#9D0000] text-white h-[30px] w-1/2 rounded-[14px] text-[15px] shadow-gray-400 shadow-md cursor-pointer trasition-all delay-100 hover:opacity-80"
+                    >
                         VOTAR
                     </button>
                 </div>
             </div>
+            <FeedbackModal ref={modalRef} />
         </main>
     );
 }
