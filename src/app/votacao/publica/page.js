@@ -12,15 +12,15 @@ export default function Votacao() {
       <div className="flex space-x-4 mt-4">
         <button
           className="px-4 py-2 bg-blue-500 text-white rounded"
-          onClick={() => router.push('/votacao/publica/convidados')}
+          onClick={() => router.push("/votacao/publica/confirmacao/convidado")}
         >
-          Votação para convidados
+          Confirmação da votação de convidados
         </button>
         <button
           className="px-4 py-2 bg-green-500 text-white rounded"
-          onClick={() => router.push('/votacao/publica/avaliadores')}
+          onClick={() => router.push("/votacao/publica/confirmacao/avaliador")}
         >
-          Votação para avaliadores
+          Confirmação da votação de avaliadores
         </button>
       </div>
     </div>
