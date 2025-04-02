@@ -1,5 +1,5 @@
 "use client";
-import FeedbackModal from "@/components/FeedbackModal/page";
+import ConfirmModal from "@/components/confirmModal";
 import React, { useState, useRef } from "react";
 
 const Header = () => (
@@ -49,7 +49,7 @@ export default function RatingPage() {
     } else {
       const ratings = { acolhimento, inovacao };
       console.log(ratings);
-      modalRef.current.openModal("Voto validado com sucesso!");
+      modalRef.current.openModal();
     }
   };
 
@@ -109,7 +109,7 @@ export default function RatingPage() {
         </div>
       </div>
 
-      <FeedbackModal ref={modalRef} />
+      <ConfirmModal ref={modalRef} />
     </div>
   );
 }

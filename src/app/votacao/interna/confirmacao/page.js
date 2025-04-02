@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import FeedbackModal from "@/components/FeedbackModal/page";
+import ConfirmModal from "@/components/confirmModal";
 
 const Header = ({ children }) => (
   <header className="mb-4 md:mb-6 lg:mb-8">
@@ -85,8 +85,9 @@ const ConfirmationPage = () => {
   const modalRef = useRef()
 
   const handleConfirm = () => {
-    modalRef.current.openModal("Voto validado com sucesso!");
+    modalRef.current.openModal();
   };
+  
   const handleReturn = () => console.log("Voltar ao início");
 
   return (
@@ -160,7 +161,7 @@ const ConfirmationPage = () => {
           </div>
         </div>
       </Header>
-      <FeedbackModal ref={modalRef} />
+      <ConfirmModal ref={modalRef} />
     </main>
   );
 };
