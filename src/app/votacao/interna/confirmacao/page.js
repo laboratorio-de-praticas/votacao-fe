@@ -7,17 +7,18 @@ import Button from "@/components/button";
 
 const Header = ({ children }) => (
   <header className="mb-4 md:mb-6 lg:mb-8">
-    <h1 className="text-[#004854] text-xl md:text-3xl lg:text-[45px] leading-tight">
-      ESCOLHA DE <span className="font-bold lg:text-[50px] block">REPRESENTANTES</span>
+    <h1 className="text-[#004854] text-base md:text-xl lg:text-2xl leading-tight">
+      ESCOLHA DE{" "}
+      <span className="font-bold text-2xl md:text-3xl lg:text-4xl block">REPRESENTANTES</span>
     </h1>
-    <hr className="border-t-2 border-[#004854] my-3 md:my-6 lg:my-8" />
+    <hr className="border-[0.5] border-[#004854] mt-4.5 mb-9 md:my-6 lg:my-8" />
     {children}
   </header>
 );
 
 const CandidateInfoRow = ({ label, value, className = "" }) => (
-  <p className={`text-[#1A6C7C] md:text-[#4A4A4A] ${className}`}>
-    <span className="text-[#004854] hidden md:inline font-bold text-[23px] mr-2">
+  <p className={`text-[#1A6C7C] text-[10px] md:text-base lg:text-lg md:text-[#4A4A4A] ${className}`}>
+    <span className="text-[#004854] hidden md:inline font-bold md:text-lg lg:text-xl mr-2">
       {label}:
     </span>
     {value}
@@ -30,7 +31,7 @@ const CandidateCard = ({ image, mobileImage, name, email, room }) => (
       {/* Mobile Image */}
       <div className="md:hidden w-full h-full">
         <Image
-          src={mobileImage || '/placeholder_mobile.png'}
+          src={mobileImage || "/placeholder_mobile.png"}
           alt={`Foto do candidato ${name}`}
           fill
           className="object-cover rounded-t-[14px]"
@@ -38,7 +39,7 @@ const CandidateCard = ({ image, mobileImage, name, email, room }) => (
           priority
         />
       </div>
-      
+
       {/* Desktop Image */}
       <div className="hidden md:block w-full h-full">
         <Image
@@ -55,25 +56,33 @@ const CandidateCard = ({ image, mobileImage, name, email, room }) => (
       <CandidateInfoRow
         label="Nome"
         value={name}
-        className="font-bold md:font-base text-[15px] md:text-xl"
+        className="font-bold text-base!"
       />
       <CandidateInfoRow
         label="Email"
         value={email}
-        className="text-[12px] md:text-xl"
       />
       <CandidateInfoRow
         label="Sala"
         value={room}
-        className="text-[12px] md:text-xl"
       />
     </div>
   </article>
 );
 
+const ActionButton = ({ children, onClick, className = "" }) => (
+  <button
+    onClick={onClick}
+    className={`px-6 py-2 bg-[#9D0000] hover:bg-[#a31515] text-white rounded-[14px] 
+      text-sm md:text-xl xl:text-2xl shadow-md hover:shadow-lg transition-all
+      ${className}`}
+  >
+    {children}
+  </button>
+);
 
 const ConfirmationPage = () => {
-  const modalRef = useRef()
+  const modalRef = useRef();
 
   const handleConfirm = () => {
     modalRef.current.openModal();
@@ -84,13 +93,13 @@ const ConfirmationPage = () => {
   return (
     <main className="px-4 py-6 md:px-8 md:py-12 lg:px-[166px] lg:py-[100px] max-w-[1800px] mx-auto">
       <Header>
-        {/* Mobile Layout */}
-        <div className="md:hidden flex flex-col items-center">
-          <div className="w-full">
-            <h2 className="text-[#004854] font-bold text-xl mb-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-[auto_auto] md:gap-8 md:pt-12">
+          {/* Texto */}
+          <div className="order-1 md:order-2 md:col-start-2 md:row-start-1">
+            <h2 className="text-[#004854] font-bold text-base md:text-3xl lg:text-4xl mb-2 md:mb-4">
               VOTO QUASE CONFIRMADO!
             </h2>
-            <p className="text-[#4A4A4A] text-sm mb-4 text-justify">
+            <p className="text-[#4A4A4A] text-base md:text-lg lg:text-xl mb-12 text-justify">
               Parabéns! Seu voto está quase confirmado, verifique ao lado se o
               candidato é o desejado e confirme logo abaixo. Em breve
               atualizaremos você sobre o resultado da votação e quem serão os
@@ -98,25 +107,10 @@ const ConfirmationPage = () => {
             </p>
           </div>
 
-          <CandidateCard
-            mobileImage="/placeholder_mobile.png"
-            image="/placeholder_desktop.png"
-            name="Teste da Silva"
-            email="teste@fatec.sp.gov.br"
-            room="DSM 3"
-          />
-
-          <div className="mt-6 w-full">
-            <div className="flex flex-col gap-4">
-              <Button onClick={handleConfirm} text={"CONFIRMAR VOTO"}/>
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop Layout */}
-        <div className="hidden md:grid md:grid-cols-[1fr_3fr] md:pt-12 md:gap-8 lg:gap-12">
-          <div className="flex justify-center">
+          {/* CandidateCard */}
+          <div className="order-2 md:order-1 md:col-start-1 md:row-span-2 flex justify-center">
             <CandidateCard
+              mobileImage="/placeholder_mobile.png"
               image="/placeholder_desktop.png"
               name="Teste da Silva"
               email="teste@fatec.sp.gov.br"
@@ -124,21 +118,9 @@ const ConfirmationPage = () => {
             />
           </div>
 
-          <div className="flex flex-col justify-around">
-            <h2 className="text-[#004854] font-bold text-3xl lg:text-[40px] mb-4">
-              VOTO QUASE CONFIRMADO!
-            </h2>
-
-            <p className="text-[#4A4A4A] text-xl lg:text-3xl mb-8">
-              Parabéns! Seu voto está quase confirmado, verifique ao lado se o
-              candidato é o desejado e confirme logo abaixo. Em breve
-              atualizaremos você sobre o resultado da votação e quem serão os
-              novos representanetes de sua turma!
-            </p>
-
-            <div className="flex justify-around gap-6">
-              <Button onClick={handleConfirm} text={"CONFIRMAR VOTO"}/>
-            </div>
+          {/* Botões */}
+          <div className="order-3 mt-3 md:order-2 md:col-start-2 md:row-start-2 flex justify-around gap-6">
+            <ActionButton onClick={handleConfirm}>CONFIRMAR VOTO</ActionButton>
           </div>
         </div>
       </Header>
