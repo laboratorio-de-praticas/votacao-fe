@@ -47,25 +47,25 @@ const ConfirmModal = forwardRef((_, ref) => {
   return (
     <>
       {isConfirmOpen && (
-        <div className="fixed inset-0 bg-white/30 backdrop-blur-[3px] md:pt-56">
+        <div className="fixed inset-0 bg-white/30 backdrop-blur-[3px] md:pt-56 pt-36">
           <div className="flex flex-col items-center justify-center">
-            <div className="bg-white p-6 rounded-xl shadow-lg text-center border-4 border-[#B20000] w-lg">
-              <p className="text-xl md:text-lg">
+            <div className="bg-white p-6 rounded-xl shadow-lg text-center border-4 border-[#B20000] md:w-lg md:max-w-lg w-[308px]">
+              <p className="text-lg">
                 Tem certeza de que deseja confirmar o voto?
               </p>
             </div>
-            <div className="flex gap-9 mt-4">
+            <div className="flex gap-4 md:gap-9 mt-4 md:gap">
               <button
-                className="bg-[#B20000] text-white rounded-xl shadow-md hover:bg-[#9A0101] w-60 h-14 transition-colors duration-300"
+                className="bg-[#B20000] text-white rounded-xl shadow-md hover:bg-[#9A0101] md:w-60 md:h-14 w-36 h-8 transition-colors duration-300"
                 onClick={() => setIsConfirmOpen(false)}
               >
-                <p className="text-xl md:text-lg">VOLTAR</p>
+                <p className="text-lg">VOLTAR</p>
               </button>
               <button
-                className="bg-[#B20000] text-white rounded-xl shadow-md hover:bg-[#9A0101] w-60 h-14 transition-colors duration-300"
+                className="bg-[#B20000] text-white rounded-xl shadow-md hover:bg-[#9A0101] md:w-60 md:h-14 w-36 h-8 transition-colors duration-300"
                 onClick={handleConfirm}
               >
-                <p className="text-xl md:text-lg">CONFIRMAR</p>
+                <p className="text-lg">CONFIRMAR</p>
               </button>
             </div>
           </div>
