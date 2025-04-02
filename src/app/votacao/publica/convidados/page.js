@@ -5,10 +5,10 @@ export default function VotacaoPublica() {
         <main className="flex flex-col flex-grow items-center justify-start">
             <div className="flex flex-col w-5/6 mt-4 md:mt-16">
                 <p className="font-sans font-regular text-left w-full text-[15px] md:text-[25px] text-[#004854] mb-[-8px] md:mb-[-16px]">
-                    Escolha de
+                    ESCOLHA DE
                 </p>
                 <p className="font-sans font-bold text-left w-full text-[23px] md:text-[36px] text-[#004854]">
-                    Projeto
+                    PROJETO
                 </p>
                 <hr className="w-full border-[#004854] border-1 " />
                 <div className="flex flex-col md:flex-row md:w-5/6 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
@@ -35,7 +35,7 @@ export default function VotacaoPublica() {
                     </div>
                     <div className="order-1 md:order-2 md:w-2/3 flex flex-col content-between">
                         <div className="mb-auto">
-                            <p className="text-[20px] font-bold md:text-[36px] text-[#004854]">
+                            <p className="text-[20px] font-bold mb-2 md:mb-4 md:text-[36px] text-[#004854]">
                                 VOTO QUASE CONFIRMADO!
                             </p>
                             <p className="text-[15px] font-regular md:text-[25px] text-[#004854]">
