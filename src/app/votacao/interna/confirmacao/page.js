@@ -16,27 +16,32 @@ const ConfirmationPage = () => {
   const confirmVote = async () => {
     try {
       console.log("Iniciando o processo de confirmação de voto...");
-      
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/votacao/interna/confirmacao`,
+        `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao`,
+
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idAluno: 1, 
+            idAluno: 2,
             idCandidato: 1,
-            idEvento: 1,
+            idEvento: 2,
           }),
         }
       );
 
-      console.log("Resposta recebida do servidor:", await response.json());
+      const responseData = await response.json();
+      console.log("Resposta recebida do servidor:", responseData);
 
       if (!response.ok) {
         console.error("Erro na resposta do servidor:", response.statusText);
-        throw new Error("Erro ao registrar o voto.");
+        throw new Error(
+          `Erro ao registrar o voto: ${
+            responseData.message || "Erro desconhecido"
+          }`
+        );
       }
 
       console.log("Voto confirmado com sucesso!");
@@ -46,6 +51,7 @@ const ConfirmationPage = () => {
       throw error.message;
     }
   };
+
 
   const description = "verifique ao lado se o candidato é o desejado e confirme logo abaixo. Em breve atualizaremos você sobre o resultado da votação e quem serão os novos representanetes de sua turma!"
 

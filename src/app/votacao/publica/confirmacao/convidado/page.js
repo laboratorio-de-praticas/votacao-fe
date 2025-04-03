@@ -16,34 +16,39 @@ export default function VotacaoPublica() {
   const confirmVote = async () => {
     console.log("Iniciando o processo de confirmação de voto...");
     try {
-      const payload = {
-        id_visitante: 1,
-        id_candidato: 1,
-        id_evento: 2,
-      };
-      console.log("Payload a ser enviado:", payload);
-
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/votacao/publica/confirmacao/convidado`,
+        `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/convidado`,
+
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({
+            id_visitante: 1,
+            id_candidato: 1,
+            id_evento: 2,
+          }),
         }
       );
 
-      console.log("Resposta recebida do servidor:", await response.json());
+      const responseData = await response.json();
+      console.log("Resposta recebida do servidor:", responseData);
 
       if (!response.ok) {
-        throw new Error("Erro ao enviar a avaliação");
+        console.error("Erro na resposta do servidor:", response.statusText);
+        throw new Error(
+          `Erro ao registrar o voto: ${
+            responseData.message || "Erro desconhecido"
+          }`
+        );
       }
 
       console.log("Voto confirmado com sucesso!");
-      modalRef.current.openModal();
+      return "Voto confirmado com sucesso!";
     } catch (error) {
       console.error("Erro na requisição:", error);
+      throw error.message;
     }
   };
 
