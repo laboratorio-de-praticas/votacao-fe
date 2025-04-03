@@ -1,6 +1,7 @@
 "use client";
 import ConfirmModal from "@/components/confirmModal";
 import React, { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 
 const Header = () => (
   <header className="w-full mb-4">
@@ -36,6 +37,7 @@ const StarRating = ({ rating, setRating }) => (
 
 export default function RatingPage() {
   const modalRef = useRef();
+  const router = useRouter();
   const [step, setStep] = useState(0);
   const [acolhimento, setAcolhimento] = useState({
     rating: null,
@@ -52,6 +54,10 @@ export default function RatingPage() {
       console.log(ratings);
       modalRef.current.openModal();
     }
+  };
+
+  const handleRedirect = () => {
+     router.push("/votacao/publica/confirmacao/avaliador");
   };
 
   return (
@@ -109,7 +115,7 @@ export default function RatingPage() {
               Voltar
             </span>
           ) : (
-            <span className="text-md text-[#1A6C7C] font-black cursor-pointer select-none">
+            <span className="text-md text-[#1A6C7C] font-black cursor-pointer select-none" onClick={handleRedirect}>
               Sair
             </span>
           )}

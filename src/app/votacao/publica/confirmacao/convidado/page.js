@@ -3,6 +3,7 @@ import Button from "@/components/button";
 import ConfirmModal from "@/components/confirmModal";
 import { useRef } from "react";
 import Image from "next/image";
+import Header from "@/components/header";
 
 export default function VotacaoPublica() {
     const modalRef = useRef()
@@ -14,13 +15,7 @@ export default function VotacaoPublica() {
     return (
       <main className="flex flex-col flex-grow items-center justify-start">
         <div className="flex flex-col w-5/6 mt-4 md:mt-16">
-          <p className="font-sans font-regular text-left w-full text-[15px] md:text-[25px] text-[#004854] mb-[-8px] md:mb-[-16px]">
-            ESCOLHA DE
-          </p>
-          <p className="font-sans font-bold text-left w-full text-[23px] md:text-[36px] text-[#004854]">
-            PROJETO
-          </p>
-          <hr className="w-full border-[#004854] border-1 " />
+          <Header text={"PROJETO"} />
           <div className="flex flex-col md:flex-row md:w-5/6 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
             <div className="order-2 w-170px w-4/5 md:w-1/3 h-fit bg-[#ffffff] rounded-b-[10px] flex flex-col shadow-gray-400 shadow-md self-center">
               <div className="w-full aspect-video bg-[#cdcdcd] border-none p-0 place-content-center">
@@ -55,12 +50,12 @@ export default function VotacaoPublica() {
                 </p>
               </div>
               <div className="hidden md:flex flex-row space-x-6 mt-8 justify-center">
-                <Button onClick={handleConfirm} text={"VOTAR"}/>
+                <Button onClick={handleConfirm} text={"VOTAR"} />
               </div>
             </div>
           </div>
+          <ConfirmModal ref={modalRef} />
         </div>
-        <ConfirmModal ref={modalRef} />
       </main>
     );
 }
