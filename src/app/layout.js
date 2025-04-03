@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           <div className="flex-1">
             <main className="flex flex-col flex-grow items-center justify-start">
-              <div className="flex flex-col w-5/6 mt-4 md:mt-16">
+              <div className="flex flex-col w-5/6 my-4 md:mt-16">
                 {children}
               </div>
             </main>

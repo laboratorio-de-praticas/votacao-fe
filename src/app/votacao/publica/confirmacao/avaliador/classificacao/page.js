@@ -2,13 +2,7 @@
 import ConfirmModal from "@/components/confirmModal";
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-
-const Header = () => (
-  <header className="w-full mb-4">
-    <h1 className="text-[#004854] text-2xl font-bold md:text-2xl">AVALIAÇÃO</h1>
-    <hr className="border-t-2 border-[#004854] my-3" />
-  </header>
-);
+import Header from "@/components/header";
 
 const StarRating = ({ rating, setRating }) => (
   <div className="flex flex-col gap-1">
@@ -61,74 +55,81 @@ export default function RatingPage() {
   };
 
   return (
-    <div className="flex flex-col px-6 py-6 items-center justify-center">
-      <Header />
-      <div className="flex flex-col w-full justify-end bg-[#F1F1F1] drop-shadow-md rounded-2xl gap-10 p-4 pl-8 pt-10 md:w-auto">
-        <span className="text-xl text-[#1A6C7C] font-bold">
-          {step === 0
-            ? "Como você avalia o nível de acolhimento deste projeto?"
-            : "Como você avalia o nível de inovação deste projeto?"}
-        </span>
-        <div className="flex w-full justify-center">
-          <StarRating
-            rating={step === 0 ? acolhimento.rating : inovacao.rating}
-            setRating={(value) =>
-              step === 0
-                ? setAcolhimento({ ...acolhimento, rating: value })
-                : setInovacao({ ...inovacao, rating: value })
-            }
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between">
-            <span className="text-xl text-[#1A6C7C]">Comentário</span>
-            <span
-              className="text-[#1A6C7C] cursor-pointer select-none"
-              onClick={() => setIsCommentOpen(!isCommentOpen)}
-            >
-              {isCommentOpen ? "Fechar" : "Opcional"}
-            </span>
+    <>
+      <Header showFirstParagraph={false} text={"AVALIAÇÃO"} />
+      <div className="flex flex-col md:flex-row md:w-5/6 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 justify-center self-center">
+        <div className="flex flex-col w-full justify-end bg-[#F1F1F1] drop-shadow-md rounded-2xl gap-10 p-4 pl-8 pt-10 md:w-auto">
+          <span className="text-xl text-[#1A6C7C] font-bold">
+            {step === 0
+              ? "Como você avalia o nível de acolhimento deste projeto?"
+              : "Como você avalia o nível de inovação deste projeto?"}
+          </span>
+          <div className="flex w-full justify-center">
+            <StarRating
+              rating={step === 0 ? acolhimento.rating : inovacao.rating}
+              setRating={(value) =>
+                step === 0
+                  ? setAcolhimento({ ...acolhimento, rating: value })
+                  : setInovacao({ ...inovacao, rating: value })
+              }
+            />
           </div>
-          <hr />
-          <textarea
-            placeholder="Digite o comentário"
-            className={
-              isCommentOpen
-                ? `w-full bg-white rounded-xl resize-none p-2`
-                : `hidden`
-            }
-            rows="4"
-            value={step === 0 ? acolhimento.comentario : inovacao.comentario}
-            onChange={(e) =>
-              step === 0
-                ? setAcolhimento({ ...acolhimento, comentario: e.target.value })
-                : setInovacao({ ...inovacao, comentario: e.target.value })
-            }
-          />
-        </div>
-        <div className="flex w-full justify-end gap-4">
-          {step > 0 ? (
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between">
+              <span className="text-xl text-[#1A6C7C]">Comentário</span>
+              <span
+                className="text-[#1A6C7C] cursor-pointer select-none"
+                onClick={() => setIsCommentOpen(!isCommentOpen)}
+              >
+                {isCommentOpen ? "Fechar" : "Opcional"}
+              </span>
+            </div>
+            <hr />
+            <textarea
+              placeholder="Digite o comentário"
+              className={
+                isCommentOpen
+                  ? `w-full bg-white rounded-xl resize-none p-2`
+                  : `hidden`
+              }
+              rows="4"
+              value={step === 0 ? acolhimento.comentario : inovacao.comentario}
+              onChange={(e) =>
+                step === 0
+                  ? setAcolhimento({
+                      ...acolhimento,
+                      comentario: e.target.value,
+                    })
+                  : setInovacao({ ...inovacao, comentario: e.target.value })
+              }
+            />
+          </div>
+          <div className="flex w-full justify-end gap-4">
+            {step > 0 ? (
+              <span
+                className="text-md text-[#1A6C7C] font-black cursor-pointer select-none"
+                onClick={() => setStep(step - 1)}
+              >
+                Voltar
+              </span>
+            ) : (
+              <span
+                className="text-md text-[#1A6C7C] font-black cursor-pointer select-none"
+                onClick={handleRedirect}
+              >
+                Sair
+              </span>
+            )}
             <span
               className="text-md text-[#1A6C7C] font-black cursor-pointer select-none"
-              onClick={() => setStep(step - 1)}
+              onClick={handleNextStep}
             >
-              Voltar
+              {step === 0 ? "Próximo" : "Avaliar"}
             </span>
-          ) : (
-            <span className="text-md text-[#1A6C7C] font-black cursor-pointer select-none" onClick={handleRedirect}>
-              Sair
-            </span>
-          )}
-          <span
-            className="text-md text-[#1A6C7C] font-black cursor-pointer select-none"
-            onClick={handleNextStep}
-          >
-            {step === 0 ? "Próximo" : "Avaliar"}
-          </span>
+          </div>
         </div>
       </div>
-
       <ConfirmModal ref={modalRef} />
-    </div>
+    </>
   );
 }
