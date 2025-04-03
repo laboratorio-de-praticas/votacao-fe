@@ -13,6 +13,39 @@ const ConfirmationPage = () => {
     modalRef.current.openModal();
   };
 
+  const confirmVote = async () => {
+    try {
+      console.log("Iniciando o processo de confirmação de voto...");
+      const response = await fetch(
+        "http://localhost/votacao/interna/confirmacao",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            idAluno: 123, 
+            idCandidato: 456,
+            idEvento: 789,
+          }),
+        }
+      );
+
+      console.log("Resposta recebida do servidor:", response);
+
+      if (!response.ok) {
+        console.error("Erro na resposta do servidor:", response.statusText);
+        throw new Error("Erro ao registrar o voto.");
+      }
+
+      console.log("Voto confirmado com sucesso!");
+      return "Voto confirmado com sucesso!";
+    } catch (error) {
+      console.error("Erro ao confirmar o voto:", error);
+      throw error.message;
+    }
+  };
+
   const description = "verifique ao lado se o candidato é o desejado e confirme logo abaixo. Em breve atualizaremos você sobre o resultado da votação e quem serão os novos representanetes de sua turma!"
 
   return (
@@ -35,7 +68,7 @@ const ConfirmationPage = () => {
           textButton={"CONFIRMAR VOTO"}
         />
       </div>
-      <ConfirmModal ref={modalRef} />
+      <ConfirmModal ref={modalRef} onConfirm={confirmVote} />
     </>
   );
 };

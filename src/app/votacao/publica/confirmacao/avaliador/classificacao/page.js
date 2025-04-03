@@ -37,6 +37,40 @@ export default function RatingPage() {
   const [inovacao, setInovacao] = useState({ rating: null, comentario: "" });
   const [isCommentOpen, setIsCommentOpen] = useState(false);
 
+  const confirmVote = async () => {
+    console.log("Iniciando o envio da avaliação...");
+    try {
+      const payload = {
+        id_avaliador: 2,
+        id_projeto: 200,
+        estrelas: acolhimento.rating || inovacao.rating,
+      };
+      console.log("Payload da requisição:", payload);
+
+      const response = await fetch(
+        "http://localhost/votacao/publica/confirmacao/avaliador/classificacao",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      console.log("Resposta da requisição recebida:", response);
+
+      if (!response.ok) {
+        throw new Error("Erro ao enviar a avaliação");
+      }
+
+      console.log("Avaliação enviada com sucesso!");
+      modalRef.current.openModal();
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
+  };
+
   const handleNextStep = () => {
     if (step === 0) {
       setStep(1);
@@ -127,7 +161,7 @@ export default function RatingPage() {
           </div>
         </div>
       </div>
-      <ConfirmModal ref={modalRef} />
+      <ConfirmModal ref={modalRef} onConfirm={confirmVote} />
     </>
   );
 }

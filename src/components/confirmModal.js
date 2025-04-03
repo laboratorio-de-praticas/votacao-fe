@@ -7,8 +7,9 @@ import React, {
 import FeedbackModal from "./feedbackModal";
 import Button from "./button";
 
-const ConfirmModal = forwardRef((_, ref) => {
+const ConfirmModal = forwardRef(({ onConfirm }, ref) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const modalRef = useRef(null);
 
   useImperativeHandle(ref, () => ({
@@ -18,30 +19,28 @@ const ConfirmModal = forwardRef((_, ref) => {
     closeModal: () => setIsConfirmOpen(false),
   }));
 
-  // Simulação de chamada de API
-  const mockApiCall = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const success = Math.random() > 0.5; // 50% chance de sucesso
-        success
-          ? resolve("Voto confirmado com sucesso!")
-          : reject("Erro ao confirmar o voto.");
-      }, 100);
-    });
-  };
-
   const handleConfirm = async () => {
+    console.log("handleConfirm: Início");
+    setLoading(true);
     setIsConfirmOpen(false);
 
     try {
-      const successMessage = await mockApiCall();
+      console.log("handleConfirm: Chamando onConfirm");
+      const successMessage = await onConfirm(); // Chama a API correta passada na tela
+      console.log("handleConfirm: onConfirm concluído com sucesso, mensagem:", successMessage);
       setTimeout(() => {
+        console.log("handleConfirm: Abrindo FeedbackModal com mensagem de sucesso");
         modalRef.current?.openModal(successMessage);
       }, 100);
     } catch (errorMessage) {
+      console.error("handleConfirm: onConfirm falhou, mensagem de erro:", errorMessage);
       setTimeout(() => {
+        console.log("handleConfirm: Abrindo FeedbackModal com mensagem de erro");
         modalRef.current?.openModal(errorMessage);
       }, 100);
+    } finally {
+      console.log("handleConfirm: Fim");
+      setLoading(false);
     }
   };
 
@@ -52,13 +51,20 @@ const ConfirmModal = forwardRef((_, ref) => {
           <div className="flex flex-col items-center justify-center">
             <div className="bg-white p-6 rounded-xl shadow-lg text-center border-4 border-[#B20000] md:w-lg md:max-w-lg w-[308px]">
               <p className="text-lg">
-                Tem certeza de que deseja confirmar o voto?
+                {loading
+                  ? "Confirmando voto..."
+                  : "Tem certeza de que deseja confirmar o voto?"}
               </p>
             </div>
-            <div className="flex gap-4 md:gap-9 mt-4 md:gap">
-              <Button onClick={() => setIsConfirmOpen(false)} text={"VOLTAR"}/>
-              <Button onClick={handleConfirm} text={"CONFIRMAR"}/>
-            </div>
+            {!loading && (
+              <div className="flex gap-4 md:gap-9 mt-4">
+                <Button
+                  onClick={() => setIsConfirmOpen(false)}
+                  text={"VOLTAR"}
+                />
+                <Button onClick={handleConfirm} text={"CONFIRMAR"} />
+              </div>
+            )}
           </div>
         </div>
       )}

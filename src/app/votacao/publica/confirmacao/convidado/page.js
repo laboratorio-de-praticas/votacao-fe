@@ -13,6 +13,40 @@ export default function VotacaoPublica() {
     modalRef.current.openModal();
   };
 
+  const confirmVote = async () => {
+    console.log("Iniciando o processo de confirmação de voto...");
+    try {
+      const payload = {
+        id_visitante: 1,
+        id_candidato: 45,
+        id_evento: 2,
+      };
+      console.log("Payload a ser enviado:", payload);
+
+      const response = await fetch(
+        "http://localhost/votacao/publica/confirmacao/convidado",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      console.log("Resposta recebida do servidor:", response);
+
+      if (!response.ok) {
+        throw new Error("Erro ao enviar a avaliação");
+      }
+
+      console.log("Voto confirmado com sucesso!");
+      modalRef.current.openModal();
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
+  };
+
   return (
     <>
       <Header text={"PROJETO"} />
@@ -28,7 +62,7 @@ export default function VotacaoPublica() {
           textButton={"VOTAR"}
         />
       </div>
-      <ConfirmModal ref={modalRef} />
+      <ConfirmModal ref={modalRef} onConfirm={confirmVote} />
     </>
   );
 }
