@@ -12,9 +12,10 @@ export default function VotacaoPublica() {
      router.push("/votacao/publica/confirmacao/avaliador/classificacao");
    };
 
+   const description = "verifique abaixo se o projeto é o desejado e confirme em seguida."
+
   return (
-    <main className="flex flex-col flex-grow items-center justify-start">
-      <div className="flex flex-col w-5/6 mt-4 md:mt-16">
+    <>
         <Header text={"PROJETO"} />
         <div className="flex flex-col md:flex-row md:w-5/6 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
           <div className="order-2 w-170px w-4/5 md:w-1/3 h-fit bg-[#ffffff] rounded-b-[10px] flex flex-col shadow-gray-400 shadow-md self-center">
@@ -54,7 +55,6 @@ export default function VotacaoPublica() {
             </div>
           </div>
         </div>
-      </div>
-    </main>
+    </>
   );
 }
