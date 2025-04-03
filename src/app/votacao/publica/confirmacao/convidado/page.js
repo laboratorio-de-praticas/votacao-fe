@@ -16,9 +16,9 @@ export default function VotacaoPublica() {
   const confirmVote = async () => {
     console.log("Iniciando o processo de confirmação de voto...");
     try {
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/convidado`,
+
         {
           method: "POST",
           headers: {

@@ -16,9 +16,9 @@ const ConfirmationPage = () => {
   const confirmVote = async () => {
     try {
       console.log("Iniciando o processo de confirmação de voto...");
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao`,
+
         {
           method: "POST",
           headers: {

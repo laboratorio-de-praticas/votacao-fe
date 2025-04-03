@@ -42,6 +42,7 @@ export default function RatingPage() {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/classificacao`,
+
         {
           method: "POST",
           headers: {
