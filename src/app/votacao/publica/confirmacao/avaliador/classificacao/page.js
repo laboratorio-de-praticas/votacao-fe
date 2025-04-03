@@ -33,10 +33,7 @@ export default function RatingPage() {
   const modalRef = useRef();
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [acolhimento, setAcolhimento] = useState({
-    rating: null,
-    comentario: "",
-  });
+  const [acolhimento, setAcolhimento] = useState({ rating: null, comentario: "" });
   const [inovacao, setInovacao] = useState({ rating: null, comentario: "" });
   const [isCommentOpen, setIsCommentOpen] = useState(false);
 
@@ -63,6 +60,7 @@ export default function RatingPage() {
             {step === 0
               ? "Como você avalia o nível de acolhimento deste projeto?"
               : "Como você avalia o nível de inovação deste projeto?"}
+
           </span>
           <div className="flex w-full justify-center">
             <StarRating
