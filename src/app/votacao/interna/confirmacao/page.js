@@ -16,22 +16,23 @@ const ConfirmationPage = () => {
   const confirmVote = async () => {
     try {
       console.log("Iniciando o processo de confirmação de voto...");
+      
       const response = await fetch(
-        "http://localhost/votacao/interna/confirmacao",
+        `${process.env.NEXT_PUBLIC_API_URL}/votacao/interna/confirmacao`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idAluno: 123, 
-            idCandidato: 456,
-            idEvento: 789,
+            idAluno: 1, 
+            idCandidato: 1,
+            idEvento: 1,
           }),
         }
       );
 
-      console.log("Resposta recebida do servidor:", response);
+      console.log("Resposta recebida do servidor:", await response.json());
 
       if (!response.ok) {
         console.error("Erro na resposta do servidor:", response.statusText);

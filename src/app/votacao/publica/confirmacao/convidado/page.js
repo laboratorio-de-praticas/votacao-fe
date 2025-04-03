@@ -18,13 +18,13 @@ export default function VotacaoPublica() {
     try {
       const payload = {
         id_visitante: 1,
-        id_candidato: 45,
+        id_candidato: 1,
         id_evento: 2,
       };
       console.log("Payload a ser enviado:", payload);
 
       const response = await fetch(
-        "http://localhost/votacao/publica/confirmacao/convidado",
+        `${process.env.NEXT_PUBLIC_API_URL}/votacao/publica/confirmacao/convidado`,
         {
           method: "POST",
           headers: {
@@ -34,7 +34,7 @@ export default function VotacaoPublica() {
         }
       );
 
-      console.log("Resposta recebida do servidor:", response);
+      console.log("Resposta recebida do servidor:", await response.json());
 
       if (!response.ok) {
         throw new Error("Erro ao enviar a avaliação");

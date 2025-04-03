@@ -41,14 +41,14 @@ export default function RatingPage() {
     console.log("Iniciando o envio da avaliação...");
     try {
       const payload = {
-        id_avaliador: 2,
-        id_projeto: 200,
+        id_avaliador: 3,
+        id_projeto: 1,
         estrelas: acolhimento.rating || inovacao.rating,
       };
       console.log("Payload da requisição:", payload);
 
       const response = await fetch(
-        "http://localhost/votacao/publica/confirmacao/avaliador/classificacao",
+        `${process.env.NEXT_PUBLIC_API_URL}/votacao/publica/confirmacao/avaliador/classificacao`,
         {
           method: "POST",
           headers: {
@@ -58,7 +58,7 @@ export default function RatingPage() {
         }
       );
 
-      console.log("Resposta da requisição recebida:", response);
+      console.log("Resposta da requisição recebida:", await response.json());
 
       if (!response.ok) {
         throw new Error("Erro ao enviar a avaliação");
