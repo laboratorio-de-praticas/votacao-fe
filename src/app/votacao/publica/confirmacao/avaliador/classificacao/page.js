@@ -40,34 +40,37 @@ export default function RatingPage() {
   const confirmVote = async () => {
     console.log("Iniciando o envio da avaliação...");
     try {
-      const payload = {
-        id_avaliador: 2,
-        id_projeto: 200,
-        estrelas: acolhimento.rating || inovacao.rating,
-      };
-      console.log("Payload da requisição:", payload);
-
       const response = await fetch(
-        "http://localhost/votacao/publica/confirmacao/avaliador/classificacao",
+        `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/classificacao`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({
+            id_avaliador: 6,
+            id_projeto: 1,
+            estrelas: acolhimento.rating || inovacao.rating,
+          }),
         }
       );
 
-      console.log("Resposta da requisição recebida:", response);
+      const responseData = await response.json();
+      console.log("Resposta recebida do servidor:", responseData);
 
       if (!response.ok) {
-        throw new Error("Erro ao enviar a avaliação");
+        console.error("Erro na resposta do servidor:", response.statusText);
+        throw new Error(
+          `Erro ao registrar o voto: ${
+            responseData.message || "Erro desconhecido"
+          }`
+        );
       }
-
       console.log("Avaliação enviada com sucesso!");
-      modalRef.current.openModal();
+      return "Voto confirmado com sucesso!";
     } catch (error) {
       console.error("Erro na requisição:", error);
+      throw error.message;
     }
   };
 
