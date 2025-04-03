@@ -15,15 +15,17 @@ const FeedbackModal = forwardRef((_, ref) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-white/30 backdrop-blur-[3px] flex items-start justify-center md:pt-56 pt-36">
-      <div className="relative bg-white p-6 rounded-xl shadow-lg w-80 text-center border-4 border-[#B20000]">
+    <div className="fixed inset-0 bg-white/30 backdrop-blur-[3px] flex items-start justify-center pt-80 xl:pt-36">
+      <div className="relative">
         <button
-          className="absolute -top-3 -right-3 w-12 h-8 flex items-center justify-center bg-white border-2 border-[#B20000] text-[#B20000] font-bold rounded-full shadow-md hover:bg-gray-100"
+          className="absolute -top-3 -right-4 z-10 w-12 h-8 flex items-center justify-center bg-[#FFFFFF] hover:bg-gray-100 border-2 border-[#B20000] text-[#B20000] font-bold rounded-full cursor-pointer"
           onClick={() => setIsOpen(false)}
         >
           X
         </button>
-        <p className="text-lg mt-2">{message}</p>
+        <div className="relative bg-[#F8F8F8] p-8 rounded-xl shadow-lg w-80 md:w-full md:min-w-84 text-center border-4 border-[#B20000] drop-shadow-[6px_6px_3px_rgba(0,0,0,0.25)]">
+          <p className="md:text-lg mt-2">{message}</p>
+        </div>
       </div>
     </div>
   );
