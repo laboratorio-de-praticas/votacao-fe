@@ -3,7 +3,7 @@ import Button from "./button"; // Adjust the import path if necessary
 
 const CongratsText = ({ text, onClickItem, textButton }) => {
     return (
-      <div className="order-1 md:order-2 md:w-2/3 flex flex-col content-between">
+      <div className="md:order-2 md:w-2/3 flex flex-col content-between">
         <div className="mb-auto">
           <p className="text-[20px] font-bold mb-2 md:mb-4 md:text-[36px] text-[#004854]">
             VOTO QUASE CONFIRMADO!
