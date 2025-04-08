@@ -5,3 +5,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${PORT}:${PORT}"
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
