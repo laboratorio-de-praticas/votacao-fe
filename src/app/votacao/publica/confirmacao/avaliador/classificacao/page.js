@@ -94,10 +94,10 @@ export default function RatingPage() {
       <Header showFirstParagraph={false} text={"AVALIAÇÃO"} />
       <div className="flex flex-col md:flex-row md:w-5/6 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 justify-center self-center">
         <div className="flex flex-col w-full justify-end bg-[#F1F1F1] drop-shadow-md rounded-2xl gap-10 p-4 pl-8 pt-10 md:w-auto">
-          <span className="text-xl text-[#1A6C7C] font-bold">
+          <span className="text-xl text-[#1A6C7C] font-bold text-center">
             {step === 0
-              ? "Como você avalia o nível de acolhimento deste projeto?"
-              : "Como você avalia o nível de inovação deste projeto?"}
+              ? "Acolhimento do projeto:"
+              : "Inovação do projeto:"}
 
           </span>
           <div className="flex w-full justify-center">

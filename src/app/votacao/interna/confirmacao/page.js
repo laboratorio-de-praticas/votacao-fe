@@ -5,6 +5,7 @@ import ConfirmModal from "@/components/confirmModal";
 import Header from "@/components/header";
 import CongratsText from "@/components/congratsText";
 import CandidateCard from "@/components/candidateCard";
+import Button from "@/components/button";
 
 const ConfirmationPage = () => {
   const modalRef = useRef();
@@ -61,8 +62,12 @@ const ConfirmationPage = () => {
     <>
       <Header text={"REPRESENTANTES"} />
       <div className="flex flex-col md:flex-row md:w-5/6 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
-        {/* CandidateCard */}
-        <div className="order-2 md:order-1 md:col-start-1 md:row-span-2 flex justify-center">
+        <CongratsText
+          text={description}
+          onClickItem={handleConfirm}
+          textButton={"VOTAR"}
+        />
+        <div className=" md:order-1 md:col-start-1 md:row-span-2 flex justify-center">
           <CandidateCard
             mobileImage="/placeholder_mobile.png"
             image="/placeholder_desktop.png"
