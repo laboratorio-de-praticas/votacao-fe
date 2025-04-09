@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState} from "react";
 import ConfirmModal from "@/components/confirmModal";
 import Header from "@/components/header";
 import CongratsText from "@/components/congratsText";
@@ -8,6 +8,7 @@ import CandidateCard from "@/components/candidateCard";
 
 const ConfirmationPage = () => {
   const modalRef = useRef();
+  const [status, setStatus] = useState(true)
 
   const handleConfirm = () => {
     modalRef.current.openModal();
@@ -25,9 +26,9 @@ const ConfirmationPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idAluno: 2,
+            idAluno: 1,
             idCandidato: 1,
-            idEvento: 2,
+            idEvento: 1,
           }),
         }
       );
@@ -45,6 +46,7 @@ const ConfirmationPage = () => {
       }
 
       console.log("Voto confirmado com sucesso!");
+      setStatus(false)
       return "Voto confirmado com sucesso!";
     } catch (error) {
       console.error("Erro ao confirmar o voto:", error);
@@ -53,7 +55,7 @@ const ConfirmationPage = () => {
   };
 
 
-  const description = "verifique ao lado se o candidato é o desejado e confirme logo abaixo. Em breve atualizaremos você sobre o resultado da votação e quem serão os novos representanetes de sua turma!"
+  const description = "verifique abaixo se o projeto é o desejado e confirme em seguida."
 
   return (
     <>
@@ -72,7 +74,8 @@ const ConfirmationPage = () => {
         <CongratsText
           text={description}
           onClickItem={handleConfirm}
-          textButton={"CONFIRMAR VOTO"}
+          textButton={ status ? "CONFIRMAR VOTO" : "VOTO REGISTRADO"}
+          status={status}
         />
       </div>
       <ConfirmModal ref={modalRef} onConfirm={confirmVote} />
