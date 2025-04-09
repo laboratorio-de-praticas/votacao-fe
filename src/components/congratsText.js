@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./button"; // Adjust the import path if necessary
 
-const CongratsText = ({ text, onClickItem, textButton }) => {
+const CongratsText = ({ text, onClickItem, textButton, status }) => {
     return (
       <div className="md:order-2 md:w-2/3 flex flex-col content-between">
         <div className="mb-auto">
@@ -13,7 +13,7 @@ const CongratsText = ({ text, onClickItem, textButton }) => {
           </p>
         </div>
         <div className="hidden md:flex flex-row space-x-6 mt-8 justify-center">
-          <Button onClick={onClickItem} text={textButton} />
+          <Button onClick={onClickItem} text={textButton} status={status} />
         </div>
       </div>
     );
