@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const ProjectCard = ({ projectName, projectDescription, imageUrl }) => {
     return (
-        <div className="order-2 w-170px w-4/5 md:w-1/3 h-fit bg-[#ffffff] rounded-b-[10px] flex flex-col shadow-gray-400 shadow-md self-center">
+        <div className="w-170px w-4/5 md:w-1/3 h-fit bg-[#ffffff] rounded-b-[10px] flex flex-col shadow-gray-400 shadow-md self-center">
             <div className="w-full aspect-video bg-[#cdcdcd] border-none p-0 place-content-center">
                 <Image
                     src={imageUrl || "/undefinedImage.svg"}
