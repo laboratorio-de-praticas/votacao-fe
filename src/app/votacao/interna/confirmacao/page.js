@@ -62,7 +62,7 @@ const ConfirmationPage = () => {
           },
           body: JSON.stringify({
             idAluno: 1,
-            idCandidato: Number(idCandidato),
+            idRepresentante: Number(idCandidato),
             idEvento: Number(idEvento),
           }),
         }

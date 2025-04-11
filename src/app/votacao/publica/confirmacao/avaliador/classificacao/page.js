@@ -46,7 +46,7 @@ export default function RatingPage() {
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/classificacao/verificacao?idProjeto=${idProjeto}&idEvento=${idEvento}`
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_avaliador=1`
         );
 
         const verificationData = await verificationResponse.json();
@@ -81,10 +81,11 @@ export default function RatingPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id_avaliador: 6,
-            id_projeto: idProjeto,
-            id_evento: idEvento,
-            estrelas: acolhimento.rating || inovacao.rating,
+            id_avaliador: 1,
+            id_projeto: new Number(idProjeto),
+            id_evento: new Number(idEvento),
+            estrelas_inovador: new Number(acolhimento.rating),
+            estrelas_acolhedor: new Number(inovacao.rating),
           }),
         }
       );

@@ -1,17 +1,21 @@
 "use client";
 import Header from "@/components/header";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams} from "next/navigation";
 import CongratsText from "@/components/congratsText";
 import ProjectCard from "@/components/projectCard";
 import Button from "@/components/button";
 
 export default function VotacaoPublica() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const idProjeto = searchParams.get("id_projeto");
+  const idEvento = searchParams.get("id_evento");
+  
   const description =
     "verifique abaixo se o projeto é o desejado e confirme em seguida.";
 
   const handleRedirect = () => {
-    router.push("/votacao/publica/confirmacao/avaliador/classificacao");
+    router.push(`/votacao/publica/confirmacao/avaliador/classificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_avaliador=1`);
   };
 
   return (

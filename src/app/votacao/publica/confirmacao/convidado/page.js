@@ -20,7 +20,7 @@ export default function VotacaoPublica() {
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/convidado/verificacao?idProjeto=${idProjeto}&idEvento=${idEvento}`
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_visitante=1`
         );
 
         const verificationData = await verificationResponse.json();
@@ -51,7 +51,7 @@ export default function VotacaoPublica() {
     console.log("Iniciando o processo de confirmação de voto...");
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/convidado`,
+        `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante`,
         {
           method: "POST",
           headers: {
@@ -59,8 +59,8 @@ export default function VotacaoPublica() {
           },
           body: JSON.stringify({
             id_visitante: 1,
-            idProjeto: idProjeto,
-            idEvento: idEvento,
+            id_projeto: new Number(idProjeto),
+            id_evento: new Number(idEvento),
           }),
         }
       );
