@@ -1,26 +1,60 @@
 "use client";
 
-import React, { useRef, useState} from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import ConfirmModal from "@/components/confirmModal";
 import Header from "@/components/header";
 import CongratsText from "@/components/congratsText";
 import CandidateCard from "@/components/candidateCard";
-
+import { useSearchParams } from "next/navigation";
 
 const ConfirmationPage = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const idCandidato = searchParams.get("id_candidato");
+  const idEvento = searchParams.get("id_evento");
+
   const modalRef = useRef();
-  const [status, setStatus] = useState(true)
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    const verifyVote = async () => {
+      try {
+        const verificationResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao/verificacao?idAluno=${idCandidato}&idEvento=${idEvento}`
+        );
+
+        const verificationData = await verificationResponse.json();
+
+        if (!verificationResponse.ok) {
+          console.error("Erro na verificação do voto:", verificationData.message);
+          throw new Error(
+            `Erro ao verificar o voto: ${
+              verificationData.message || "Erro desconhecido"
+            }`
+          );
+        }
+
+        const canVote = !verificationData.voto_confirmado;
+        setStatus(canVote);
+      } catch (error) {
+        console.error("Erro ao verificar o voto:", error);
+        alert(error.message);
+      }
+    };
+
+    verifyVote();
+  }, [idCandidato, idEvento]);
 
   const handleConfirm = () => {
     modalRef.current.openModal();
   };
 
   const confirmVote = async () => {
+    console.log("Registrando o voto...");
     try {
-      console.log("Iniciando o processo de confirmação de voto...");
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao`,
-
         {
           method: "POST",
           headers: {
@@ -28,8 +62,8 @@ const ConfirmationPage = () => {
           },
           body: JSON.stringify({
             idAluno: 1,
-            idCandidato: 1,
-            idEvento: 1,
+            idCandidato: Number(idCandidato),
+            idEvento: Number(idEvento),
           }),
         }
       );
@@ -47,16 +81,15 @@ const ConfirmationPage = () => {
       }
 
       console.log("Voto confirmado com sucesso!");
-      setStatus(false)
-      return "Voto confirmado com sucesso!";
+      alert("Voto confirmado com sucesso!");
     } catch (error) {
       console.error("Erro ao confirmar o voto:", error);
-      throw error.message;
+      alert(error.message);
     }
   };
 
-
-  const description = "verifique abaixo se o projeto é o desejado e confirme em seguida."
+  const description =
+    "verifique abaixo se o projeto é o desejado e confirme em seguida.";
 
   return (
     <>
@@ -74,7 +107,7 @@ const ConfirmationPage = () => {
         <CongratsText
           text={description}
           onClickItem={handleConfirm}
-          textButton={ status ? "CONFIRMAR VOTO" : "VOTO REGISTRADO"}
+          textButton={status === null ? "CARREGANDO..." : status ? "CONFIRMAR VOTO" : "VOTO REGISTRADO"}
           status={status}
         />
       </div>

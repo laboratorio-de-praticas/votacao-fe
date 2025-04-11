@@ -8,9 +8,15 @@ export default function Page() {
       <h1>Página de Votação Interna</h1>
       <button
         className="px-4 py-2 bg-blue-500 text-white rounded"
-        onClick={() => router.push("/votacao/interna/confirmacao")}
+        onClick={() => router.push("/votacao/interna/confirmacao?id_candidato=1&id_evento=2")}
       >
-        Confirmação
+        Confirmação evento 2
+      </button>
+      <button
+        className="px-4 py-2 bg-blue-500 text-white rounded"
+        onClick={() => router.push("/votacao/interna/confirmacao?id_candidato=1&id_evento=1")}
+      >
+        Confirmação evento 1
       </button>
     </div>
   );

@@ -26,3 +26,10 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+// Adicionando um fallback para redirecionar caso a rota não seja encontrada
+export function generateStaticParams() {
+  return [
+    { id: 'default' },
+  ];
+}

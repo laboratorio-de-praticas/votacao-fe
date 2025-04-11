@@ -1,14 +1,47 @@
 "use client";
+
 import ConfirmModal from "@/components/confirmModal";
 import CongratsText from "@/components/congratsText";
 import Header from "@/components/header";
 import ProjectCard from "@/components/projectCard";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import Button from "@/components/button";
+import { useSearchParams } from "next/navigation";
 
 export default function VotacaoPublica() {
   const modalRef = useRef();
-  const description = "verifique abaixo se o projeto é o desejado e confirme em seguida."
+  const description = "verifique abaixo se o projeto é o desejado e confirme em seguida.";
+  const searchParams = useSearchParams();
+  const idProjeto = searchParams.get("id_projeto");
+  const idEvento = searchParams.get("id_evento");
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    const verifyVote = async () => {
+      try {
+        const verificationResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/convidado/verificacao?idProjeto=${idProjeto}&idEvento=${idEvento}`
+        );
+
+        const verificationData = await verificationResponse.json();
+
+        if (!verificationResponse.ok) {
+          console.error("Erro na verificação:", verificationData.message);
+          throw new Error(
+            `Erro ao verificar: ${verificationData.message || "Erro desconhecido"}`
+          );
+        }
+
+        const canVote = !verificationData.voto_confirmado;
+        setStatus(canVote);
+      } catch (error) {
+        console.error("Erro ao verificar:", error);
+        alert(error.message);
+      }
+    };
+
+    verifyVote();
+  }, [idProjeto, idEvento]);
 
   const handleConfirm = () => {
     modalRef.current.openModal();
@@ -19,7 +52,6 @@ export default function VotacaoPublica() {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/convidado`,
-
         {
           method: "POST",
           headers: {
@@ -27,8 +59,8 @@ export default function VotacaoPublica() {
           },
           body: JSON.stringify({
             id_visitante: 1,
-            id_candidato: 1,
-            id_evento: 2,
+            idProjeto: idProjeto,
+            idEvento: idEvento,
           }),
         }
       );
@@ -46,10 +78,8 @@ export default function VotacaoPublica() {
       }
 
       console.log("Voto confirmado com sucesso!");
-      return "Voto confirmado com sucesso!";
     } catch (error) {
       console.error("Erro na requisição:", error);
-      throw error.message;
     }
   };
 
@@ -60,7 +90,8 @@ export default function VotacaoPublica() {
         <CongratsText
           text={description}
           onClickItem={handleConfirm}
-          textButton={"VOTAR"}
+          textButton={status === null ? "CARREGANDO..." : status ? "VOTAR" : "VOTO REGISTRADO"}
+          status={status}
         />
         <ProjectCard
           projectName={"Nome do Projeto"}
