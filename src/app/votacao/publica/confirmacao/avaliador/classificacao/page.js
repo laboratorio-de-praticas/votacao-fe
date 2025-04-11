@@ -33,9 +33,9 @@ export default function RatingPage() {
   const modalRef = useRef();
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [acolhimento, setAcolhimento] = useState({ rating: null, comentario: "" });
-  const [inovacao, setInovacao] = useState({ rating: null, comentario: "" });
-  const [isCommentOpen, setIsCommentOpen] = useState(false);
+  const [acolhimento, setAcolhimento] = useState(null);
+  const [inovacao, setInovacao] = useState(null);
+  const [comentario, setComentario] = useState("");
 
   const confirmVote = async () => {
     console.log("Iniciando o envio da avaliação...");
@@ -51,7 +51,8 @@ export default function RatingPage() {
           body: JSON.stringify({
             id_avaliador: 6,
             id_projeto: 1,
-            estrelas: acolhimento.rating || inovacao.rating,
+            estrelas: acolhimento || inovacao,
+            comentario: comentario,
           }),
         }
       );
@@ -78,9 +79,9 @@ export default function RatingPage() {
   const handleNextStep = () => {
     if (step === 0) {
       setStep(1);
+    } else if (step === 1) {
+      setStep(2);
     } else {
-      const ratings = { acolhimento, inovacao };
-      console.log(ratings);
       modalRef.current.openModal();
     }
   };
@@ -93,74 +94,59 @@ export default function RatingPage() {
     <>
       <Header showFirstParagraph={false} text={"AVALIAÇÃO"} />
       <div className="flex flex-col md:flex-row md:w-5/6 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 justify-center self-center">
-        <div className="flex flex-col w-full justify-end bg-[#F1F1F1] drop-shadow-md rounded-2xl gap-10 p-4 pl-8 pt-10 md:w-auto">
-          <span className="text-xl text-[#1A6C7C] font-bold text-center">
-            {step === 0
-              ? "Acolhimento do projeto:"
-              : "Inovação do projeto:"}
-
-          </span>
-          <div className="flex w-full justify-center">
-            <StarRating
-              rating={step === 0 ? acolhimento.rating : inovacao.rating}
-              setRating={(value) =>
-                step === 0
-                  ? setAcolhimento({ ...acolhimento, rating: value })
-                  : setInovacao({ ...inovacao, rating: value })
-              }
-            />
+        <div className="flex flex-col w-full justify-end bg-[#F1F1F1] drop-shadow-md rounded-2xl gap-16 p-4 pl-9 pt-14 md:w-auto">
+          <div className="flex flex-col gap-16 pr-4">
+            <span className="text-lg text-center text-[#1A6C7C] font-bold mb-2">
+              {step === 0
+                ? "Acolhimento do projeto:"
+                : step === 1
+                ? "Inovação do projeto:"
+                : "Deixe um comentário!"}
+            </span>
+            {step === 2 ? (
+              <input
+                type="text"
+                placeholder="Escreva aqui seu comentário (opcional)"
+                value={comentario}
+                onChange={(e) => setComentario(e.target.value)}
+                className="w-full pb-2 mt-10 mb-10 text-xs md:text-base border-0 border-b-1 border-[#666666] focus:outline-none"
+              />
+            ) : (
+              <div className="flex flex-col gap-16">
+                <StarRating
+                  rating={step === 0 ? acolhimento : inovacao}
+                  setRating={(value) =>
+                    step === 0 ? setAcolhimento(value) : setInovacao(value)
+                  }
+                />
+                <hr className="border-[#666666]" />
+              </div>
+            )}
           </div>
-          <div className="flex flex-col gap-2">
-            <div className="flex justify-between">
-              <span className="text-xl text-[#1A6C7C]">Comentário</span>
+          <div className="flex w-full justify-end gap-6">
+            {step === 2 ? (
               <span
-                className="text-[#1A6C7C] cursor-pointer select-none"
-                onClick={() => setIsCommentOpen(!isCommentOpen)}
+                className="text-xs md:text-base text-[#1A6C7C] font-black cursor-pointer select-none"
+                onClick={() => {
+                  setComentario("");
+                  handleNextStep();
+                }}
               >
-                {isCommentOpen ? "Fechar" : "Opcional"}
-              </span>
-            </div>
-            <hr />
-            <textarea
-              placeholder="Digite o comentário"
-              className={
-                isCommentOpen
-                  ? `w-full bg-white rounded-xl resize-none p-2`
-                  : `hidden`
-              }
-              rows="4"
-              value={step === 0 ? acolhimento.comentario : inovacao.comentario}
-              onChange={(e) =>
-                step === 0
-                  ? setAcolhimento({
-                      ...acolhimento,
-                      comentario: e.target.value,
-                    })
-                  : setInovacao({ ...inovacao, comentario: e.target.value })
-              }
-            />
-          </div>
-          <div className="flex w-full justify-end gap-4">
-            {step > 0 ? (
-              <span
-                className="text-md text-[#1A6C7C] font-black cursor-pointer select-none"
-                onClick={() => setStep(step - 1)}
-              >
-                Voltar
+                Continuar sem comentar
               </span>
             ) : (
               <span
-                className="text-md text-[#1A6C7C] font-black cursor-pointer select-none"
+                className="text-xs md:text-base text-[#1A6C7C] font-black cursor-pointer select-none"
                 onClick={handleRedirect}
               >
                 Sair
               </span>
             )}
             <span
-              className="text-md text-[#1A6C7C] font-black cursor-pointer select-none"
+              className="text-xs md:text-base text-[#1A6C7C] font-black cursor-pointer select-none"
               onClick={handleNextStep}
             >
-              {step === 0 ? "Próximo" : "Avaliar"}
+              {step === 2 ? "Comentar" : "Avaliar"}
             </span>
           </div>
         </div>
