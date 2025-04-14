@@ -10,7 +10,6 @@ import { useSearchParams } from "next/navigation";
 
 export default function VotacaoPublica() {
   const modalRef = useRef();
-  const description = "verifique abaixo se o projeto é o desejado e confirme em seguida.";
   const searchParams = useSearchParams();
   const idProjeto = searchParams.get("id_projeto");
   const idEvento = searchParams.get("id_evento");
@@ -86,21 +85,23 @@ export default function VotacaoPublica() {
   return (
     <>
       <Header text={"PROJETO"} />
-      <div className="flex flex-col md:flex-row md:w-5/6 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
-        <CongratsText
-          text={description}
-          onClickItem={handleConfirm}
-          textButton={status === null ? "CARREGANDO..." : status ? "VOTAR" : "VOTO REGISTRADO"}
-          status={status}
-        />
+      <div className="flex flex-col justify-center items-center gap-8 mt-16 md:mb-16">
         <ProjectCard
           projectName={"Nome do Projeto"}
           projectDescription={"Descrição do Projeto"}
           imageUrl={"/undefinedImage.svg"}
         />
-        <div className="md:hidden w-full flex justify-center">
-          <Button onClick={handleConfirm} text={"VOTAR"} />
-        </div>
+          <Button
+            onClick={handleConfirm}
+            text={
+              status === null
+                ? "CARREGANDO..."
+                : status
+                ? "VOTAR"
+                : "VOTO REGISTRADO"
+            }
+            status={status}
+          />
       </div>
       <ConfirmModal ref={modalRef} onConfirm={confirmVote} />
     </>
