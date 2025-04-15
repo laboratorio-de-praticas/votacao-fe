@@ -6,6 +6,7 @@ import Header from "@/components/header";
 import CandidateCard from "@/components/candidateCard";
 import Button from "@/components/button";
 
+<<<<<<< HEAD:src/app/votacao/interna/confirmacao/[idEvento]/[idCandidato]/page.js
 const ConfirmationPage = ({ params: paramsPromise }) => {
   const [params, setParams] = useState(null);
 
@@ -17,6 +18,12 @@ const ConfirmationPage = ({ params: paramsPromise }) => {
 
     unwrapParams();
   }, [paramsPromise]);
+=======
+const ConfirmationPage = () => {
+  const searchParams = useSearchParams();
+  const idCandidato = searchParams.get("id_candidato");
+  const idEvento = searchParams.get("id_evento");
+>>>>>>> 3f30fbc (refactor: remove unused router import and improve vote confirmation handling):src/app/votacao/interna/confirmacao/page.js
 
   const modalRef = useRef();
   const [status, setStatus] = useState(null);
@@ -89,7 +96,11 @@ const ConfirmationPage = ({ params: paramsPromise }) => {
       }
 
       setStatus(false);
+<<<<<<< HEAD:src/app/votacao/interna/confirmacao/[idEvento]/[idCandidato]/page.js
       return responseData.message;
+=======
+      return(responseData.message);
+>>>>>>> 3f30fbc (refactor: remove unused router import and improve vote confirmation handling):src/app/votacao/interna/confirmacao/page.js
     } catch (error) {
       console.error("Erro ao confirmar o voto:", error);
       alert(error.message);
