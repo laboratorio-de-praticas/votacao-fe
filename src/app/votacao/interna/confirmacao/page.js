@@ -9,7 +9,6 @@ import { useSearchParams } from "next/navigation";
 import Button from "@/components/button";
 
 const ConfirmationPage = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const idCandidato = searchParams.get("id_candidato");
   const idEvento = searchParams.get("id_evento");
@@ -80,8 +79,8 @@ const ConfirmationPage = () => {
         );
       }
 
-      console.log("Voto confirmado com sucesso!");
-      alert("Voto confirmado com sucesso!");
+      setStatus(false);
+      return(responseData.message);
     } catch (error) {
       console.error("Erro ao confirmar o voto:", error);
       alert(error.message);
