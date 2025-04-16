@@ -30,46 +30,61 @@ const StarRating = ({ rating, setRating }) => (
   </div>
 );
 
-export default function RatingPage() {
+export default function RatingPage({ params: paramsPromise }) {
   const modalRef = useRef();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const idProjeto = searchParams.get("id_projeto");
-  const idEvento = searchParams.get("id_evento");
   const [step, setStep] = useState(0);
   const [acolhimento, setAcolhimento] = useState({ rating: null, comentario: "" });
   const [inovacao, setInovacao] = useState({ rating: null, comentario: "" });
   const [isCommentOpen, setIsCommentOpen] = useState(false);
+
+  const [params, setParams] = useState(null);
+
+  useEffect(() => {
+    const unwrapParams = async () => {
+      const resolvedParams = await paramsPromise;
+      setParams(resolvedParams);
+    };
+
+    unwrapParams();
+  }, [paramsPromise]);
+
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
+    if (!params) return;
+
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_avaliador=1`
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?idAvaliador=${params.idAvaliador}&idProjeto=${params.idProjeto}&idEvento=${params.idEvento}`
         );
 
         const verificationData = await verificationResponse.json();
 
         if (!verificationResponse.ok) {
-          console.error("Erro na verificação:", verificationData.message);
+          console.error("Erro na verificação do voto:", verificationData.message);
           throw new Error(
-            `Erro ao verificar: ${verificationData.message || "Erro desconhecido"}`
+            `Erro ao verificar o voto: ${
+              verificationData.message || "Erro desconhecido"
+            }`
           );
         }
 
         const canVote = !verificationData.voto_confirmado;
         setStatus(canVote);
       } catch (error) {
-        console.error("Erro ao verificar:", error);
+        console.error("Erro ao verificar o voto:", error);
         alert(error.message);
       }
     };
 
     verifyVote();
-  }, [idProjeto, idEvento]);
+  }, [params]);
 
   const confirmVote = async () => {
+    if (!params) return;
+
     console.log("Iniciando o envio da avaliação...");
     try {
       const response = await fetch(
@@ -81,9 +96,9 @@ export default function RatingPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id_avaliador: 1,
-            id_projeto: new Number(idProjeto),
-            id_evento: new Number(idEvento),
+            idAvaliador: new Number(params.idAvaliador),
+            idProjeto: new Number(params.idProjeto),
+            idEvento: new Number(params.idEvento),
             estrelas_inovador: new Number(acolhimento.rating),
             estrelas_acolhedor: new Number(inovacao.rating),
           }),

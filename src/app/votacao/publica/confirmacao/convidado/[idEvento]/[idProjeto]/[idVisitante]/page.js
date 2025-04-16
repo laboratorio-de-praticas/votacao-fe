@@ -6,48 +6,61 @@ import Header from "@/components/header";
 import ProjectCard from "@/components/projectCard";
 import { useRef, useEffect, useState } from "react";
 import Button from "@/components/button";
-import { useSearchParams } from "next/navigation";
 
-export default function VotacaoPublica() {
+export default function VotacaoPublica({ params: paramsPromise }) {
+  const [params, setParams] = useState(null);
+
+  useEffect(() => {
+    const unwrapParams = async () => {
+      const resolvedParams = await paramsPromise;
+      setParams(resolvedParams);
+    };
+
+    unwrapParams();
+  }, [paramsPromise]);
+
   const modalRef = useRef();
-  const searchParams = useSearchParams();
-  const idProjeto = searchParams.get("id_projeto");
-  const idEvento = searchParams.get("id_evento");
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
+    if (!params) return;
+
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_visitante=1`
+         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?idVisitante=${params.idVisitante}&idProjeto=${params.idProjeto}&idEvento=${params.idEvento}`
         );
 
         const verificationData = await verificationResponse.json();
 
         if (!verificationResponse.ok) {
-          console.error("Erro na verificação:", verificationData.message);
+          console.error("Erro na verificação do voto:", verificationData.message);
           throw new Error(
-            `Erro ao verificar: ${verificationData.message || "Erro desconhecido"}`
+            `Erro ao verificar o voto: ${
+              verificationData.message || "Erro desconhecido"
+            }`
           );
         }
 
         const canVote = !verificationData.voto_confirmado;
         setStatus(canVote);
       } catch (error) {
-        console.error("Erro ao verificar:", error);
+        console.error("Erro ao verificar o voto:", error);
         alert(error.message);
       }
     };
 
     verifyVote();
-  }, [idProjeto, idEvento]);
+  }, [params]);
 
   const handleConfirm = () => {
     modalRef.current.openModal();
   };
 
   const confirmVote = async () => {
-    console.log("Iniciando o processo de confirmação de voto...");
+    if (!params) return;
+
+    console.log("Registrando o voto...");
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante`,
@@ -57,9 +70,9 @@ export default function VotacaoPublica() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id_visitante: 1,
-            id_projeto: new Number(idProjeto),
-            id_evento: new Number(idEvento),
+            idAluno: 1,
+            idRepresentante: Number(params.idCandidato),
+            idEvento: Number(params.idEvento),
           }),
         }
       );
@@ -76,9 +89,11 @@ export default function VotacaoPublica() {
         );
       }
 
-      console.log("Voto confirmado com sucesso!");
+      setStatus(false);
+      return responseData.message;
     } catch (error) {
-      console.error("Erro na requisição:", error);
+      console.error("Erro ao confirmar o voto:", error);
+      alert(error.message);
     }
   };
 
