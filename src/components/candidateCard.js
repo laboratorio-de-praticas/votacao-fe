@@ -4,20 +4,7 @@ import Image from "next/image";
 const CandidateCard = ({ image, mobileImage, name, email, room }) => (
   <article className="w-full max-w-[171px] md:max-w-[336px] lg:max-h-[406px] xl:max-h-none bg-white rounded-b-[14px] shadow-lg hover:shadow-xl transition-shadow">
     <div className="relative aspect-square md:aspect-[336/242]">
-      {/* Mobile Image */}
-      <div className="md:hidden w-full h-full">
-        <Image
-          src={mobileImage || "/placeholder_mobile.png"}
-          alt={`Foto do candidato ${name}`}
-          fill
-          className="object-cover rounded-t-[14px]"
-          sizes="(max-width: 768px) 171px"
-          priority
-        />
-      </div>
-
-      {/* Desktop Image */}
-      <div className="hidden md:block w-full h-full">
+      <div className=" w-full h-full">
         <Image
           src={image}
           alt={`Foto do candidato ${name}`}
