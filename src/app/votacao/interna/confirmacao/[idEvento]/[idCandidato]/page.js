@@ -101,10 +101,10 @@ const ConfirmationPage = ({ params: paramsPromise }) => {
   };
 
   return (
-    <div className="p-4 md:p8 lg:pt-8 lg:px-16">
+    <div className="p-4 md:p8 w-full lg:pt-28 lg:px-16">
       <Header text={"REPRESENTANTES"} />
-      <div className="flex flex-col md:flex-row md:w-full md:px-25 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
-        <div className=" md:order-1 md:col-start-1 md:row-span-2 flex justify-center">
+      <div className="flex flex-col w-full md:px-25 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
+        <div className="flex justify-center">
           <CandidateCard
             mobileImage="/placeholder_mobile.png"
             image="/placeholder_desktop.png"
@@ -123,6 +123,7 @@ const ConfirmationPage = ({ params: paramsPromise }) => {
               : "VOTO REGISTRADO"
           }
           status={status}
+          className={"self-center"}
         ></Button>
       </div>
       <ConfirmModal ref={modalRef} onConfirm={confirmVote} />
