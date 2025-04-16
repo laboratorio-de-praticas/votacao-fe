@@ -6,7 +6,7 @@ import Header from "@/components/header";
 import CandidateCard from "@/components/candidateCard";
 import Button from "@/components/button";
 
-<<<<<<< HEAD:src/app/votacao/interna/confirmacao/[idEvento]/[idCandidato]/page.js
+
 const ConfirmationPage = ({ params: paramsPromise }) => {
   const [params, setParams] = useState(null);
 
@@ -18,12 +18,6 @@ const ConfirmationPage = ({ params: paramsPromise }) => {
 
     unwrapParams();
   }, [paramsPromise]);
-=======
-const ConfirmationPage = () => {
-  const searchParams = useSearchParams();
-  const idCandidato = searchParams.get("id_candidato");
-  const idEvento = searchParams.get("id_evento");
->>>>>>> 3f30fbc (refactor: remove unused router import and improve vote confirmation handling):src/app/votacao/interna/confirmacao/page.js
 
   const modalRef = useRef();
   const [status, setStatus] = useState(null);
@@ -40,7 +34,10 @@ const ConfirmationPage = () => {
         const verificationData = await verificationResponse.json();
 
         if (!verificationResponse.ok) {
-          console.error("Erro na verificação do voto:", verificationData.message);
+          console.error(
+            "Erro na verificação do voto:",
+            verificationData.message
+          );
           throw new Error(
             `Erro ao verificar o voto: ${
               verificationData.message || "Erro desconhecido"
@@ -96,11 +93,7 @@ const ConfirmationPage = () => {
       }
 
       setStatus(false);
-<<<<<<< HEAD:src/app/votacao/interna/confirmacao/[idEvento]/[idCandidato]/page.js
       return responseData.message;
-=======
-      return(responseData.message);
->>>>>>> 3f30fbc (refactor: remove unused router import and improve vote confirmation handling):src/app/votacao/interna/confirmacao/page.js
     } catch (error) {
       console.error("Erro ao confirmar o voto:", error);
       alert(error.message);
@@ -110,25 +103,27 @@ const ConfirmationPage = () => {
   return (
     <div className="p-4 md:p8 lg:pt-8 lg:px-16">
       <Header text={"REPRESENTANTES"} />
-      <div className="flex flex-col justify-center items-center gap-8 mt-16 md:mb-16">
-        <CandidateCard
-          mobileImage="/placeholder_mobile.png"
-          image="/placeholder_desktop.png"
-          name="Teste da Silva"
-          email="teste@fatec.sp.gov.br"
-          room="DSM 3"
-        />
+      <div className="flex flex-col md:flex-row md:w-full md:px-25 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
+        <div className=" md:order-1 md:col-start-1 md:row-span-2 flex justify-center">
+          <CandidateCard
+            mobileImage="/placeholder_mobile.png"
+            image="/placeholder_desktop.png"
+            name="Teste da Silva"
+            email="teste@fatec.sp.gov.br"
+            room="DSM 3"
+          />
+        </div>
         <Button
           onClick={handleConfirm}
           text={
             status === null
               ? "CARREGANDO..."
               : status
-              ? "VOTAR"
+              ? "CONFIRMAR VOTO"
               : "VOTO REGISTRADO"
           }
           status={status}
-        />
+        ></Button>
       </div>
       <ConfirmModal ref={modalRef} onConfirm={confirmVote} />
     </div>
