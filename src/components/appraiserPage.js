@@ -5,7 +5,7 @@ import CongratsText from "@/components/congratsText";
 import ProjectCard from "@/components/projectCard";
 import Button from "@/components/button";
 
-export default function VotacaoPublica() {
+export default function AppraiserPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const idProjeto = searchParams.get("id_projeto");
