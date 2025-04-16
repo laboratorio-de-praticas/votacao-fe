@@ -15,7 +15,7 @@ export default function AppraiserPage() {
     "verifique abaixo se o projeto é o desejado e confirme em seguida.";
 
   const handleRedirect = () => {
-    router.push(`/votacao/publica/confirmacao/avaliador/classificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_avaliador=1`);
+    router.push(`/votacao/publica/confirmacao/classificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_avaliador=1`);
   };
 
   return (
