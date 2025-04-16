@@ -9,27 +9,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="pt-br">
-      <body className="font-verdana h-[100dvh]">
-        <div className="flex flex-col min-h-screen">
-          <Navbar />
-          <div className="flex-1">
-            <main className="flex flex-col flex-grow items-center justify-start">
-              <div className="flex flex-col w-5/6 my-4 md:mt-16">
+      <html lang="pt-br">
+        <body className="font-verdana h-[100dvh]">
+          <div className="flex flex-col min-h-full">
+            <Navbar />
+            <div className="flex flex-grow flex-shrink">
+              <main className="flex flex-col flex-grow flex-shrink items-center justify-start">
                 {children}
-              </div>
-            </main>
+              </main>
+            </div>
+            <Footer />
           </div>
-          <Footer />
-        </div>
-      </body>
-    </html>
+        </body>
+      </html>
   );
-}
-
-// Adicionando um fallback para redirecionar caso a rota não seja encontrada
-export function generateStaticParams() {
-  return [
-    { id: 'default' },
-  ];
 }
