@@ -34,8 +34,9 @@ export default function RatingPage({ params: paramsPromise }) {
   const modalRef = useRef();
   const router = useRouter();
   const [step, setStep] = useState(0);
-  const [acolhimento, setAcolhimento] = useState({ rating: null, comentario: "" });
-  const [inovacao, setInovacao] = useState({ rating: null, comentario: "" });
+  const [acolhimento, setAcolhimento] = useState("");
+  const [inovacao, setInovacao] = useState("");
+  const [comentario, setComentario] = useState("");
   const [isCommentOpen, setIsCommentOpen] = useState(false);
 
   const [params, setParams] = useState(null);
@@ -57,7 +58,7 @@ export default function RatingPage({ params: paramsPromise }) {
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?idAvaliador=${params.idAvaliador}&idProjeto=${params.idProjeto}&idEvento=${params.idEvento}`
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_avaliador=${params.idAvaliador}&id_projeto=${params.idProjeto}&id_evento=${params.idEvento}`
         );
 
         const verificationData = await verificationResponse.json();
@@ -96,11 +97,12 @@ export default function RatingPage({ params: paramsPromise }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idAvaliador: new Number(params.idAvaliador),
-            idProjeto: new Number(params.idProjeto),
-            idEvento: new Number(params.idEvento),
-            estrelas_inovador: new Number(acolhimento.rating),
-            estrelas_acolhedor: new Number(inovacao.rating),
+            id_avaliador: new Number(params.idAvaliador),
+            id_projeto: new Number(params.idProjeto),
+            id_evento: new Number(params.idEvento),
+            estrelas_inovador: new Number(inovacao),
+            estrelas_acolhedor: new Number(acolhimento),
+            comentario: new Text(comentario),
           }),
         }
       );
@@ -116,10 +118,10 @@ export default function RatingPage({ params: paramsPromise }) {
           }`
         );
       }
-      console.log("Avaliação enviada com sucesso!");
-      alert("Avaliação enviada com sucesso!");
+      setStatus(false);
+      return responseData.message;
     } catch (error) {
-      console.error("Erro na requisição:", error);
+      console.error("Erro ao confirmar a avaliacao:", error);
       alert(error.message);
     }
   };

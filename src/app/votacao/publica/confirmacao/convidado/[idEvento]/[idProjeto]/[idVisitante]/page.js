@@ -28,7 +28,7 @@ export default function VotacaoPublica({ params: paramsPromise }) {
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?idVisitante=${params.idVisitante}&idProjeto=${params.idProjeto}&idEvento=${params.idEvento}`
+         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?id_visitante=${params.idVisitante}&id_projeto=${params.idProjeto}&id_evento=${params.idEvento}`
         );
 
         const verificationData = await verificationResponse.json();
@@ -58,9 +58,7 @@ export default function VotacaoPublica({ params: paramsPromise }) {
   };
 
   const confirmVote = async () => {
-    if (!params) return;
-
-    console.log("Registrando o voto...");
+    console.log("Iniciando o processo de confirmação de voto...");
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante`,
@@ -70,9 +68,9 @@ export default function VotacaoPublica({ params: paramsPromise }) {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            idAluno: 1,
-            idRepresentante: Number(params.idCandidato),
-            idEvento: Number(params.idEvento),
+            id_visitante: new Number(params.idVisitante),
+            id_projeto: new Number(params.idProjeto),
+            id_evento: new Number(params.idEvento),
           }),
         }
       );

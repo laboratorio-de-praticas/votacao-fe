@@ -32,13 +32,12 @@ export function middleware(req) {
       return NextResponse.redirect(errorUrl);
     }
 
-    backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?idVisitante=${idVisitante}&idProjeto=${idProjeto}&idEvento=${idEvento}`;
+    backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?id_visitante=${idVisitante}&id_projeto=${idProjeto}&id_evento=${idEvento}`;
+
   } else if (pathname.startsWith("/votacao/publica/confirmacao/avaliador")) {
     idEvento = pathSegments[5];
     idProjeto = pathSegments[6];
     idAvaliador = pathSegments[7];
-
-    console.log(idProjeto, idEvento, idAvaliador);
 
     if (!idEvento || !idProjeto || !idAvaliador) {
       const errorUrl = new URL("/error", req.url);
@@ -46,7 +45,7 @@ export function middleware(req) {
       return NextResponse.redirect(errorUrl);
     }
 
-    backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?idAvaliador=${idAvaliador}&idProjeto=${idProjeto}&idEvento=${idEvento}`;
+    backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_avaliador=${idAvaliador}&id_projeto=${idProjeto}&id_evento=${idEvento}`;
   }
 
   return fetch(backUrl)
@@ -68,7 +67,9 @@ export function middleware(req) {
 }
 
 export const config = {
-  matcher: "/votacao/interna/confirmacao/:path*",
-  matcher: "/votacao/publica/confirmacao/avaliador/:path*",
-  matcher: "/votacao/publica/confirmacao/convidado/:path*",
+  matcher: [
+    "/votacao/interna/confirmacao/:path*",
+    "/votacao/publica/confirmacao/convidado/:path*",
+    "/votacao/publica/confirmacao/avaliador/:path*",
+  ],
 };
