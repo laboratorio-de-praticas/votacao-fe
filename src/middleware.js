@@ -6,7 +6,7 @@ export function middleware(req) {
 
   // Extraindo parâmetros da rota dinâmica
   const pathSegments = pathname.split("/");
-  let idEvento, idCandidato, idProjeto, idVisitante, idAvaliador;
+  let idEvento, idCandidato, idTypeVotacao, idProjeto, idPessoa;
   let backUrl;
 
   if (pathname.startsWith("/votacao/interna/confirmacao")) {
@@ -21,31 +21,23 @@ export function middleware(req) {
 
     backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao/verificacao?idAluno=${idCandidato}&idEvento=${idEvento}`;
 
-  } else if (pathname.startsWith("/votacao/publica/confirmacao/convidado")) {
+  } else if (pathname.startsWith("/votacao/publica/confirmacao")) {
+    idTypeVotacao = pathSegments[4];
     idEvento = pathSegments[5];
     idProjeto = pathSegments[6];
-    idVisitante = pathSegments[7];
+    idPessoa = pathSegments[7];
 
-    if (!idEvento || !idProjeto || !idVisitante) {
+    if (!idTypeVotacao || !idEvento || !idProjeto || !idPessoa) {
       const errorUrl = new URL("/error", req.url);
       errorUrl.searchParams.set("message", "Parâmetros inválidos na URL.");
       return NextResponse.redirect(errorUrl);
     }
 
-    backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?id_visitante=${idVisitante}&id_projeto=${idProjeto}&id_evento=${idEvento}`;
-
-  } else if (pathname.startsWith("/votacao/publica/confirmacao/avaliador")) {
-    idEvento = pathSegments[5];
-    idProjeto = pathSegments[6];
-    idAvaliador = pathSegments[7];
-
-    if (!idEvento || !idProjeto || !idAvaliador) {
-      const errorUrl = new URL("/error", req.url);
-      errorUrl.searchParams.set("message", "Parâmetros inválidos na URL.");
-      return NextResponse.redirect(errorUrl);
+    if (idTypeVotacao === "1") {
+      backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?id_visitante=${idPessoa}&id_projeto=${idProjeto}&id_evento=${idEvento}`;
+    } else if (idTypeVotacao === "2") {
+      backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_avaliador=${idPessoa}&id_projeto=${idProjeto}&id_evento=${idEvento}`;
     }
-
-    backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_avaliador=${idAvaliador}&id_projeto=${idProjeto}&id_evento=${idEvento}`;
   }
   return fetch(backUrl)
     .then(async (response) => {
@@ -68,7 +60,6 @@ export function middleware(req) {
 export const config = {
   matcher: [
     "/votacao/interna/confirmacao/:path*",
-    "/votacao/publica/confirmacao/convidado/:path*",
-    "/votacao/publica/confirmacao/avaliador/:path*",
+    "/votacao/publica/confirmacao/:path*",
   ],
 };

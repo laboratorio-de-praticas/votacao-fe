@@ -1,17 +1,51 @@
 "use client";
 import Header from "@/components/header";
-import { useRouter, useSearchParams} from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import ProjectCard from "@/components/projectCard";
 import Button from "@/components/button";
 
-export default function AppraiserPage() {
+export default function VotacaoPublica({ idEvento, idProjeto, idAvaliador }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const idProjeto = searchParams.get("id_projeto");
-  const idEvento = searchParams.get("id_evento");
-  
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    if (!idEvento || !idProjeto || !idAvaliador) return;
+
+    const verifyVote = async () => {
+      try {
+        const verificationResponse = await fetch(
+         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_avaliador=${idAvaliador}&id_projeto=${idProjeto}&id_evento=${idEvento}`
+        );
+
+        const verificationData = await verificationResponse.json();
+
+        if (!verificationResponse.ok) {
+          console.error("Erro na verificação do voto:", verificationData.message);
+          throw new Error(
+            `Erro ao verificar o voto: ${
+              verificationData.message || "Erro desconhecido"
+            }`
+          );
+        }
+
+        const canVote = !verificationData.voto_confirmado;
+        setStatus(canVote);
+      } catch (error) {
+        console.error("Erro ao verificar o voto:", error);
+        alert(error.message);
+      }
+    };
+
+    verifyVote();
+  }, [idEvento, idProjeto, idAvaliador]);
+
   const handleRedirect = () => {
-    router.push(`/votacao/publica/confirmacao/classificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_avaliador=1`);
+    if (!idEvento || !idProjeto || !idAvaliador) return;
+
+    router.push(
+      `/votacao/publica/confirmacao/2/${idEvento}/${idProjeto}/${idAvaliador}/classificacao`
+    );
   };
 
   return (
@@ -30,7 +64,6 @@ export default function AppraiserPage() {
             }
           />
       </div>
-
     </>
   );
 }
