@@ -6,7 +6,7 @@ export default function Navbar() {
     return (
       <header className="w-full">
         {/* Barra Superior: Logo SP, Social icons */}
-        <div className="w-full box-border relative z-1 bg-white text-white flex justify-between items-center border-b border-gray-300 mb-4 md:pr-4">
+        <div className="w-full box-border relative z-1 bg-white text-white flex justify-between items-center border-gray-300 md:pr-4">
           {/* Logo SP */}
           <div className="w-[409px] h-[98px] top-0 left-0 p-[22px_0_20px_20px] rounded-r-[50px] bg-black text-white flex justify-between items-center">
             <a href="https://www.cps.sp.gov.br" className="md:hover:opacity-80">

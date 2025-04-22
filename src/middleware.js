@@ -47,7 +47,6 @@ export function middleware(req) {
 
     backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_avaliador=${idAvaliador}&id_projeto=${idProjeto}&id_evento=${idEvento}`;
   }
-
   return fetch(backUrl)
     .then(async (response) => {
       const data = await response.json();
