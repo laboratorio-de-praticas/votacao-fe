@@ -1,14 +1,13 @@
 "use client";
 
 import ConfirmModal from "@/components/confirmModal";
-import CongratsText from "@/components/congratsText";
 import Header from "@/components/header";
 import ProjectCard from "@/components/projectCard";
 import { useRef, useEffect, useState } from "react";
 import Button from "@/components/button";
 import { useSearchParams } from "next/navigation";
 
-export default function VotacaoPublica() {
+export default function GuestPage() {
   const modalRef = useRef();
   const searchParams = useSearchParams();
   const idProjeto = searchParams.get("id_projeto");

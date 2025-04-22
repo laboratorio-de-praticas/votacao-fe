@@ -4,9 +4,15 @@ import React, { useRef, useState, useEffect } from "react";
 import ConfirmModal from "@/components/confirmModal";
 import Header from "@/components/header";
 import CandidateCard from "@/components/candidateCard";
+import { useSearchParams } from "next/navigation";
+import Button from "@/components/button";
 import Button from "@/components/button";
 
 
+const ConfirmationPage = () => {
+  const searchParams = useSearchParams();
+  const idCandidato = searchParams.get("id_candidato");
+  const idEvento = searchParams.get("id_evento");
 const ConfirmationPage = ({ params: paramsPromise }) => {
   const [params, setParams] = useState(null);
 
