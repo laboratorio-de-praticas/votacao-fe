@@ -6,24 +6,24 @@ import Header from "@/components/header";
 import CandidateCard from "@/components/candidateCard";
 import { useSearchParams } from "next/navigation";
 import Button from "@/components/button";
-import Button from "@/components/button";
-
 
 const ConfirmationPage = () => {
   const searchParams = useSearchParams();
   const idCandidato = searchParams.get("id_candidato");
   const idEvento = searchParams.get("id_evento");
-const ConfirmationPage = ({ params: paramsPromise }) => {
-  const [params, setParams] = useState(null);
+const [params, setParams] = useState(null);
 
-  useEffect(() => {
-    const unwrapParams = async () => {
-      const resolvedParams = await paramsPromise;
-      setParams(resolvedParams);
+useEffect(() => {
+  const unwrapParams = async () => {
+    const resolvedParams = {
+      idCandidato,
+      idEvento,
     };
+    setParams(resolvedParams);
+  };
 
-    unwrapParams();
-  }, [paramsPromise]);
+  unwrapParams();
+}, [idCandidato, idEvento]);
 
   const modalRef = useRef();
   const [status, setStatus] = useState(null);
