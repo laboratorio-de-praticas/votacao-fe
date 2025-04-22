@@ -1,50 +1,41 @@
 import { NextResponse } from "next/server";
 
-
 export function middleware(req) {
   const url = req.nextUrl;
   const pathname = url.pathname;
-  const idCandidato = url.searchParams.get("id_candidato");
-  const idEvento = url.searchParams.get("id_evento");
-  const idProjeto = url.searchParams.get("id_projeto");
-  let backUrl; 
 
-  if ((!idCandidato && !idProjeto) || !idEvento) {
-    return NextResponse.redirect(new URL("/erro", req.url));
+  // Extraindo parâmetros da rota dinâmica
+  const pathSegments = pathname.split("/");
+  const idCandidato = pathSegments[4];
+  const idEvento = pathSegments[5];
+  let backUrl;
+
+  if (!idCandidato || !idEvento) {
+    const errorUrl = new URL("/error", req.url);
+    errorUrl.searchParams.set("message", "Parâmetros inválidos na URL.");
+    return NextResponse.redirect(errorUrl);
   }
 
-  if(idCandidato){
-    backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao/verificacao?idAluno=${idCandidato}&idEvento=${idEvento}`
-  }
+  backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao/verificacao?idAluno=${idCandidato}&idEvento=${idEvento}`;
 
-  if(pathname.startsWith("/votacao/publica/confirmacao/convidado")){
-    backUrl = `${process.env.NEXT_PUBLIC_API_URL}/votacao/publica/confirmacao/visitante/verificacao?id_evento=${idEvento}&id_projeto=${idProjeto}&id_visitante=1`;
-  }else{
-    backUrl=`${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_evento=${idEvento}&id_projeto=${idProjeto}&id_avaliador=1`
-  }
-  return fetch(url).then(async (response) => {
-    const data = await response.json();
-    console.log(response);
-    console.log(
-      `Verificando se o aluno já votou... ${data.voto_confirmado ? "Sim" : "Não"}`
-    );
-    console.log(data);
-    if (!response.ok) {
-      return NextResponse.redirect(new URL("/erro", req.url));
-    }
-
-    return NextResponse.next();
-  })
-  .catch((error) => {
-    console.error("Erro ao verificar o voto:", error);
-    //return NextResponse.redirect(new URL("/erro", req.url));
-  });
-
-
+  return fetch(backUrl)
+    .then(async (response) => {
+      const data = await response.json();
+      if (!response.ok) {
+        const errorUrl = new URL("/error", req.url);
+        errorUrl.searchParams.set("message", data.message || "Erro ao verificar o voto.");
+        return NextResponse.redirect(errorUrl);
+      }
+      return NextResponse.next();
+    })
+    .catch((error) => {
+      console.error("Erro ao verificar o voto:", error);
+      const errorUrl = new URL("/error", req.url);
+      errorUrl.searchParams.set("message", error.message || "Erro desconhecido.");
+      return NextResponse.redirect(errorUrl);
+    });
 }
 
 export const config = {
   matcher: "/votacao/interna/confirmacao/:path*",
-  matcher: "/votacao/publica/confirmacao/avaliador/:path*",
-  matcher: "/votacao/publica/confirmacao/convidado/:path*",
 };
