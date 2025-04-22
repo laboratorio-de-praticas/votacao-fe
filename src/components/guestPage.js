@@ -1,7 +1,6 @@
 "use client";
 
 import ConfirmModal from "@/components/confirmModal";
-import CongratsText from "@/components/congratsText";
 import Header from "@/components/header";
 import ProjectCard from "@/components/projectCard";
 import { useRef, useEffect, useState } from "react";
