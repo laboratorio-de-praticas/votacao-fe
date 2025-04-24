@@ -15,7 +15,7 @@ export default function VotacaoPublica({ idEvento, idProjeto, idAvaliador }) {
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_avaliador=${idAvaliador}&id_projeto=${idProjeto}&id_evento=${idEvento}`
+         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/${idAvaliador}/${idProjeto}/${idEvento}`
         );
 
         const verificationData = await verificationResponse.json();

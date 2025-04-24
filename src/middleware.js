@@ -19,7 +19,7 @@ export function middleware(req) {
       return NextResponse.redirect(errorUrl);
     }
 
-    backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao/verificacao?idAluno=${idCandidato}&idEvento=${idEvento}`;
+    backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao/verificacao/${idCandidato}/${idEvento}`;
 
   } else if (pathname.startsWith("/votacao/publica/confirmacao")) {
     idTypeVotacao = pathSegments[4];
@@ -34,9 +34,9 @@ export function middleware(req) {
     }
 
     if (idTypeVotacao === "1") {
-      backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?id_visitante=${idPessoa}&id_projeto=${idProjeto}&id_evento=${idEvento}`;
+      backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/${idPessoa}/${idProjeto}/${idEvento}`;     
     } else if (idTypeVotacao === "2") {
-      backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_avaliador=${idPessoa}&id_projeto=${idProjeto}&id_evento=${idEvento}`;
+      backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/${idPessoa}/${idProjeto}/${idEvento}`;      
     }
   }
   return fetch(backUrl)

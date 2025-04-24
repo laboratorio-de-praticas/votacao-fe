@@ -46,7 +46,7 @@ export default function RatingPage() {
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_avaliador=${idPessoa}`
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/${idProjeto}/${idEvento}/${idPessoa}`
         );
 
         const verificationData = await verificationResponse.json();
