@@ -6,18 +6,21 @@ import Header from "@/components/header";
 import CandidateCard from "@/components/candidateCard";
 import Button from "@/components/button";
 
-
 const ConfirmationPage = ({ params: paramsPromise }) => {
   const [params, setParams] = useState(null);
 
-  useEffect(() => {
-    const unwrapParams = async () => {
-      const resolvedParams = await paramsPromise;
-      setParams(resolvedParams);
-    };
 
-    unwrapParams();
-  }, [paramsPromise]);
+useEffect(() => {
+  const unwrapParams = async () => {
+    const resolvedParams = {
+      idCandidato,
+      idEvento,
+    };
+    setParams(resolvedParams);
+  };
+
+  unwrapParams();
+}, [idCandidato, idEvento]);
 
   const modalRef = useRef();
   const [status, setStatus] = useState(null);
