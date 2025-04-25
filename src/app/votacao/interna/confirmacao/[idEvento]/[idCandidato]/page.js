@@ -5,8 +5,10 @@ import ConfirmModal from "@/components/confirmModal";
 import Header from "@/components/header";
 import CandidateCard from "@/components/candidateCard";
 import Button from "@/components/button";
+import { useParams } from "next/navigation";
 
 const ConfirmationPage = ({ params: paramsPromise }) => {
+  const { idCandidato, idEvento } = useParams();
   const [params, setParams] = useState(null);
 
 
