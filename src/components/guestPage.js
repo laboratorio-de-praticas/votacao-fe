@@ -1,45 +1,48 @@
 "use client";
-
 import ConfirmModal from "@/components/confirmModal";
 import Header from "@/components/header";
 import ProjectCard from "@/components/projectCard";
 import { useRef, useEffect, useState } from "react";
 import Button from "@/components/button";
-import { useSearchParams } from "next/navigation";
 
-export default function GuestPage() {
+export default function VotacaoPublica({ idEvento, idProjeto, idVisitante }) {
+
   const modalRef = useRef();
-  const searchParams = useSearchParams();
-  const idProjeto = searchParams.get("id_projeto");
-  const idEvento = searchParams.get("id_evento");
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
+    if (!idEvento || !idProjeto || !idVisitante) return;
+
     const verifyVote = async () => {
       try {
+        console.log("IDs recebidos:", idVisitante, idProjeto, idEvento);
+        
         const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/verificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_visitante=1`
+         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/visitante/${idVisitante}/${idProjeto}/${idEvento}`
         );
 
         const verificationData = await verificationResponse.json();
 
         if (!verificationResponse.ok) {
-          console.error("Erro na verificação:", verificationData.message);
+          console.error("Erro na verificação do voto:", verificationData.message);
           throw new Error(
-            `Erro ao verificar: ${verificationData.message || "Erro desconhecido"}`
+            `Erro ao verificar o voto: ${
+              verificationData.message || "Erro desconhecido"
+            }`
           );
         }
 
         const canVote = !verificationData.voto_confirmado;
+        console.log(canVote)
         setStatus(canVote);
       } catch (error) {
-        console.error("Erro ao verificar:", error);
+        console.error("Erro ao verificar o voto:", error);
         alert(error.message);
       }
     };
 
     verifyVote();
-  }, [idProjeto, idEvento]);
+  }, [idEvento, idProjeto, idVisitante]);
 
   const handleConfirm = () => {
     modalRef.current.openModal();
@@ -56,7 +59,7 @@ export default function GuestPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id_visitante: 1,
+            id_visitante: new Number(idVisitante),
             id_projeto: new Number(idProjeto),
             id_evento: new Number(idEvento),
           }),
@@ -75,9 +78,11 @@ export default function GuestPage() {
         );
       }
 
-      console.log("Voto confirmado com sucesso!");
+      setStatus(false);
+      return responseData.message;
     } catch (error) {
-      console.error("Erro na requisição:", error);
+      console.error("Erro ao confirmar o voto:", error);
+      alert(error.message);
     }
   };
 

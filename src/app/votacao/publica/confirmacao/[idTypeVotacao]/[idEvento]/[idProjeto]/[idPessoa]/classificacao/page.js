@@ -2,7 +2,7 @@
  
 import ConfirmModal from "@/components/confirmModal";
 import React, { useState, useRef, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import Header from "@/components/header";
 
 const StarRating = ({ rating, setRating }) => (
@@ -33,20 +33,20 @@ const StarRating = ({ rating, setRating }) => (
 export default function RatingPage() {
   const modalRef = useRef();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const idProjeto = searchParams.get("id_projeto");
-  const idEvento = searchParams.get("id_evento");
+  const { idEvento, idProjeto, idPessoa } = useParams();
   const [step, setStep] = useState(0);
-  const [acolhimento, setAcolhimento] = useState({ rating: null, comentario: "" });
-  const [inovacao, setInovacao] = useState({ rating: null, comentario: "" });
-  const [isCommentOpen, setIsCommentOpen] = useState(false);
+  const [acolhimento, setAcolhimento] = useState("");
+  const [inovacao, setInovacao] = useState("");
+  const [comentario, setComentario] = useState("");
   const [status, setStatus] = useState(null);
 
   useEffect(() => {
+    if (!idEvento || !idProjeto || !idPessoa) return;
+
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/verificacao?id_projeto=${idProjeto}&id_evento=${idEvento}&id_avaliador=1`
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/${idProjeto}/${idEvento}/${idPessoa}`
         );
 
         const verificationData = await verificationResponse.json();
@@ -67,7 +67,7 @@ export default function RatingPage() {
     };
 
     verifyVote();
-  }, [idProjeto, idEvento]);
+  }, [idProjeto, idEvento, idPessoa]);
 
   const confirmVote = async () => {
     console.log("Iniciando o envio da avaliação...");
@@ -81,11 +81,11 @@ export default function RatingPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id_avaliador: 1,
+            id_avaliador: new Number(idPessoa),
             id_projeto: new Number(idProjeto),
             id_evento: new Number(idEvento),
-            estrelas_inovador: new Number(acolhimento.rating),
-            estrelas_acolhedor: new Number(inovacao.rating),
+            estrelas_inovador: new Number(inovacao),
+            estrelas_acolhedor: new Number(acolhimento),
           }),
         }
       );
@@ -101,10 +101,10 @@ export default function RatingPage() {
           }`
         );
       }
-      console.log("Avaliação enviada com sucesso!");
-      alert("Avaliação enviada com sucesso!");
+      setStatus(false);
+      return responseData.message;
     } catch (error) {
-      console.error("Erro na requisição:", error);
+      console.error("Erro ao confirmar a avaliacao:", error);
       alert(error.message);
     }
   };

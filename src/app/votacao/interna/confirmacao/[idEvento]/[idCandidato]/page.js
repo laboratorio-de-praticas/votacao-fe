@@ -4,14 +4,11 @@ import React, { useRef, useState, useEffect } from "react";
 import ConfirmModal from "@/components/confirmModal";
 import Header from "@/components/header";
 import CandidateCard from "@/components/candidateCard";
-import { useSearchParams } from "next/navigation";
 import Button from "@/components/button";
 
-const ConfirmationPage = () => {
-  const searchParams = useSearchParams();
-  const idCandidato = searchParams.get("id_candidato");
-  const idEvento = searchParams.get("id_evento");
-const [params, setParams] = useState(null);
+const ConfirmationPage = ({ params: paramsPromise }) => {
+  const [params, setParams] = useState(null);
+
 
 useEffect(() => {
   const unwrapParams = async () => {
@@ -34,7 +31,7 @@ useEffect(() => {
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao/verificacao?idAluno=${params.idCandidato}&idEvento=${params.idEvento}`
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/confirmacao/verificacao/${params.idCandidato}/${params.idEvento}`
         );
 
         const verificationData = await verificationResponse.json();
