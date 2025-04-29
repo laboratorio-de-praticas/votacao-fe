@@ -102,6 +102,11 @@ export default function RatingPage() {
         );
       }
       setStatus(false);
+
+      setTimeout(() => {
+        router.push(`/votacao/publica/confirmacao/2/${idEvento}/${idProjeto}/${idPessoa}`);
+      }, 2000);
+
       return responseData.message;
     } catch (error) {
       console.error("Erro ao confirmar a avaliacao:", error);

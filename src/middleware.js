@@ -39,22 +39,27 @@ export function middleware(req) {
       backUrl = `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/${idPessoa}/${idProjeto}/${idEvento}`;      
     }
   }
-  return fetch(backUrl)
-    .then(async (response) => {
-      const data = await response.json();
-      if (!response.ok) {
+  const referer = req.headers.get("referer");
+
+  if (!referer) {
+    return fetch(backUrl)
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) {
+          const errorUrl = new URL("/error", req.url);
+          errorUrl.searchParams.set("message", data.message || "Erro ao verificar o voto.");
+          return NextResponse.redirect(errorUrl);
+        }
+        return NextResponse.next();
+      })
+      .catch((error) => {
+        console.error("Erro ao verificar o voto:", error);
         const errorUrl = new URL("/error", req.url);
-        errorUrl.searchParams.set("message", data.message || "Erro ao verificar o voto.");
+        errorUrl.searchParams.set("message", error.message || "Erro desconhecido.");
         return NextResponse.redirect(errorUrl);
-      }
-      return NextResponse.next();
-    })
-    .catch((error) => {
-      console.error("Erro ao verificar o voto:", error);
-      const errorUrl = new URL("/error", req.url);
-      errorUrl.searchParams.set("message", error.message || "Erro desconhecido.");
-      return NextResponse.redirect(errorUrl);
-    });
+      });
+  }
+  return NextResponse.next();
 }
 
 export const config = {
