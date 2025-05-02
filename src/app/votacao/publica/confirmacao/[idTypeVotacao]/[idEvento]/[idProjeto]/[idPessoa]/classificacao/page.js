@@ -1,6 +1,7 @@
 "use client";
- 
+
 import ConfirmModal from "@/components/confirmModal";
+import FeedbackModal from "@/components/feedbackModal";
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Header from "@/components/header";
@@ -32,6 +33,7 @@ const StarRating = ({ rating, setRating }) => (
 
 export default function RatingPage() {
   const modalRef = useRef();
+  const feedbackModalRef = useRef();
   const router = useRouter();
   const { idEvento, idProjeto, idPessoa } = useParams();
   const [step, setStep] = useState(0);
@@ -116,16 +118,16 @@ export default function RatingPage() {
 
   const handleNextStep = () => {
     if (step === 0) {
-      setStep(1);
+      acolhimento ? setStep(1) : feedbackModalRef.current?.openModal("Avalie o critério de 1 a 5 estrelas");
     } else if (step === 1) {
-      setStep(2);
+      inovacao ? setStep(2) : feedbackModalRef.current?.openModal("Avalie o critério de 1 a 5 estrelas");
     } else {
       modalRef.current.openModal();
     }
   };
 
   const handleRedirect = () => {
-    router.push("/votacao/publica/confirmacao/avaliador");
+    router.push(`/votacao/publica/confirmacao/2/${idEvento}/${idProjeto}/${idPessoa}`);
   };
 
   return (
@@ -189,6 +191,7 @@ export default function RatingPage() {
           </div>
         </div>
       </div>
+      <FeedbackModal ref={feedbackModalRef} />
       <ConfirmModal ref={modalRef} onConfirm={confirmVote} />
     </>
   );
