@@ -11,21 +11,21 @@ const ConfirmationPage = ({ params: paramsPromise }) => {
   const { idCandidato, idEvento } = useParams();
   const [params, setParams] = useState(null);
 
-
-useEffect(() => {
-  const unwrapParams = async () => {
-    const resolvedParams = {
-      idCandidato,
-      idEvento,
+  useEffect(() => {
+    const unwrapParams = async () => {
+      const resolvedParams = {
+        idCandidato,
+        idEvento,
+      };
+      setParams(resolvedParams);
     };
-    setParams(resolvedParams);
-  };
 
-  unwrapParams();
-}, [idCandidato, idEvento]);
+    unwrapParams();
+  }, [idCandidato, idEvento]);
 
   const modalRef = useRef();
   const [status, setStatus] = useState(null);
+  const [representative, setRepresentative] = useState(null);
 
   useEffect(() => {
     if (!params) return;
@@ -59,6 +59,34 @@ useEffect(() => {
     };
 
     verifyVote();
+  }, [params]);
+
+  useEffect(() => {
+    if (!params) return;
+
+    const fetchRepresentative = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/interna/representante/${params.idCandidato}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          console.error("Erro ao buscar representante:", data.message);
+          throw new Error(
+            `Erro ao buscar representante: ${data.message || "Erro desconhecido"}`
+          );
+        }
+
+        setRepresentative(data);
+      } catch (error) {
+        console.error("Erro ao buscar representante:", error);
+        alert(error.message);
+      }
+    };
+
+    fetchRepresentative();
   }, [params]);
 
   const handleConfirm = () => {
@@ -108,15 +136,19 @@ useEffect(() => {
   return (
     <div className="p-4 md:p8 w-full lg:pt-28 lg:px-16">
       <Header text={"REPRESENTANTES"} />
-      <div className="flex flex-col w-full md:px-25 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
+      <div className="flex flex-col w-full md:px-24 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
         <div className="flex justify-center">
-          <CandidateCard
-            mobileImage="/placeholder_mobile.png"
-            image="/placeholder_desktop.png"
-            name="Teste da Silva"
-            email="teste@fatec.sp.gov.br"
-            room="DSM 3"
-          />
+          {representative ? (
+            <CandidateCard
+              mobileImage={representative.foto_url || "/placeholder_mobile.png"}
+              image={representative.foto_url || "/placeholder_desktop.png"}
+              name={representative.nome}
+              email={representative.email}
+              room={representative.curso_semestre}
+            />
+          ) : (
+            <p>Carregando informações do representante...</p>
+          )}
         </div>
         <Button
           onClick={handleConfirm}
