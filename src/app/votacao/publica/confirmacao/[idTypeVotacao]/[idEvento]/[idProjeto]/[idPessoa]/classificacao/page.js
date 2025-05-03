@@ -59,6 +59,7 @@ export default function RatingPage() {
             id_evento: new Number(idEvento),
             estrelas_inovador: new Number(inovacao),
             estrelas_acolhedor: new Number(acolhimento),
+            comentario: comentario,
           }),
         }
       );
@@ -139,7 +140,7 @@ export default function RatingPage() {
               <span
                 className="text-xs md:text-base text-[#1A6C7C] font-black cursor-pointer select-none"
                 onClick={() => {
-                  setComentario("");
+                  setComentario(null);
                   handleNextStep();
                 }}
               >
