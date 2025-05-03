@@ -8,6 +8,35 @@ import Button from "@/components/button";
 export default function VotacaoPublica({ idEvento, idProjeto, idAvaliador }) {
   const router = useRouter();
   const [status, setStatus] = useState(null);
+  const [projectDetails, setProjectDetails] = useState(null);
+
+  useEffect(() => {
+    if (!idProjeto) return;
+
+    const fetchProjectDetails = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/detalhes/${idProjeto}`
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          console.error("Erro ao buscar detalhes do projeto:", data.message);
+          throw new Error(
+            `Erro ao buscar detalhes do projeto: ${data.message || "Erro desconhecido"}`
+          );
+        }
+
+        setProjectDetails(data);
+      } catch (error) {
+        console.error("Erro ao buscar detalhes do projeto:", error);
+        alert(error.message);
+      }
+    };
+
+    fetchProjectDetails();
+  }, [idProjeto]);
 
   useEffect(() => {
     if (!idEvento || !idProjeto || !idAvaliador) return;
@@ -15,7 +44,7 @@ export default function VotacaoPublica({ idEvento, idProjeto, idAvaliador }) {
     const verifyVote = async () => {
       try {
         const verificationResponse = await fetch(
-         `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/${idAvaliador}/${idProjeto}/${idEvento}`
+          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/${idAvaliador}/${idProjeto}/${idEvento}`
         );
 
         const verificationData = await verificationResponse.json();
@@ -26,7 +55,6 @@ export default function VotacaoPublica({ idEvento, idProjeto, idAvaliador }) {
         } else {
           setStatus(true);
         }
-        
       } catch (error) {
         console.error("Erro ao verificar o voto:", error);
         alert(error.message);
@@ -48,22 +76,26 @@ export default function VotacaoPublica({ idEvento, idProjeto, idAvaliador }) {
     <>
       <Header text={"PROJETO"} />
       <div className="flex flex-col justify-center items-center gap-8 mt-16 md:mb-16">
-        <ProjectCard
-          projectName={"Nome do Projeto"}
-          projectDescription={"Descrição do Projeto"}
-          imageUrl={"/undefinedImage.svg"}
-        />
-          <Button
-            onClick={handleRedirect}
-            text={
-              status === null
-                ? "CARREGANDO..."
-                : status
-                ? "VOTAR"
-                : "VOTO REGISTRADO"
-            }
-            status={status}
+        {projectDetails ? (
+          <ProjectCard
+            projectName={projectDetails.titulo}
+            projectDescription={projectDetails.descricao}
+            imageUrl={projectDetails.foto_url || "/undefinedImage.svg"}
           />
+        ) : (
+          <p>Carregando informações do projeto...</p>
+        )}
+        <Button
+          onClick={handleRedirect}
+          text={
+            status === null
+              ? "CARREGANDO..."
+              : status
+              ? "VOTAR"
+              : "VOTO REGISTRADO"
+          }
+          status={status}
+        />
       </div>
     </>
   );
