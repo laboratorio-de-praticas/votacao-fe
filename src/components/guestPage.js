@@ -25,10 +25,15 @@ export default function VotacaoPublica({ idEvento, idProjeto, idVisitante }) {
 
         if (!verificationResponse.ok) {
           console.log("Erro na verificação do voto:", verificationData.message);
-          setStatus(false);
-        } else {
-          setStatus(true);
+          throw new Error(
+            `Erro ao verificar o voto: ${
+              verificationData.message || "Erro desconhecido"
+            }`
+          );
         }
+
+        const canVote = !verificationData.voto_confirmado;
+        setStatus(canVote);
       } catch (error) {
         console.error("Erro ao verificar o voto:", error);
         alert(error.message);

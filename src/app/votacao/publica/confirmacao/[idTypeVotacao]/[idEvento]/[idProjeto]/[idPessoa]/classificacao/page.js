@@ -42,35 +42,6 @@ export default function RatingPage() {
   const [comentario, setComentario] = useState("");
   const [status, setStatus] = useState(null);
 
-  useEffect(() => {
-    if (!idEvento || !idProjeto || !idPessoa) return;
-
-    const verifyVote = async () => {
-      try {
-        const verificationResponse = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}votacao/publica/confirmacao/avaliador/${idProjeto}/${idEvento}/${idPessoa}`
-        );
-
-        const verificationData = await verificationResponse.json();
-
-        if (!verificationResponse.ok) {
-          console.error("Erro na verificação:", verificationData.message);
-          throw new Error(
-            `Erro ao verificar: ${verificationData.message || "Erro desconhecido"}`
-          );
-        }
-
-        const canVote = !verificationData.voto_confirmado;
-        setStatus(canVote);
-      } catch (error) {
-        console.error("Erro ao verificar:", error);
-        alert(error.message);
-      }
-    };
-
-    verifyVote();
-  }, [idProjeto, idEvento, idPessoa]);
-
   const confirmVote = async () => {
     console.log("Iniciando o envio da avaliação...");
     try {
