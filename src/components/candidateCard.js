@@ -5,7 +5,7 @@ const CandidateCard = ({ image, mobileImage, name, email, room }) => (
   <article className="w-full max-w-[220px] md:max-w-[370px] lg:max-h-[450px] xl:max-h-none bg-white rounded-b-[14px] shadow-lg hover:shadow-xl transition-shadow">
     <div className="relative aspect-square md:aspect-[336/242]">
       <div className=" w-full h-full">
-        <Image
+        <Image 
           src={image}
           alt={`Foto do candidato: ${name}`}
           fill
