@@ -184,8 +184,9 @@ O sistema estará rodando em `http://localhost:3000`.
 5. Copie o conteúdo presente no arquivo `prisma`->`init.sql` 
 6. Crie um banco chamado `votacao_db` no PgAdmin
 7. Cole no `Query Tool` a query do `init.sql`
-8. Volte para o VSCode e rode prisma generate
+8. Volte para o VSCode e rode prisma pull e em seguida prisma generate
     ```base
+    npx prisma db pull
     npx prisma generate
     ```
 
