@@ -9,6 +9,31 @@
 
 <h1 align="center">Votação</h1>
 
+## Índice
+- [📖 Descrição do Projeto](#📖-descrição-do-projeto)
+- [🛠️ Tecnologias e Ferramentas Utilizadas](#🛠️-tecnologias-e-ferramentas-utilizadas)
+- [⚙️ Como Rodar a Votação](#⚙️-como-rodar-a-votação)
+    - [🔧 Pré-requisitos com Docker](#🔧-pré-requisitos-com-docker)
+    - [🚀 Instalação e Execução](#🚀-instalação-e-execução)
+    - [🔧 Pré-requisitos sem Docker](#🔧-pré-requisitos-sem-docker)
+- [🔍 Entendendo o Sistema](#🔍-entendendo-o-sistema)
+    - [🎓 Votação dos Representantes](#🎓-votação-dos-representantes)
+    - [🏆 Votação dos Projetos por Visitantes](#🏆-votação-dos-projetos-por-visitantes)
+    - [🏆 Votação dos Projetos por Avaliadores Externos](#🏆-votação-dos-projetos-por-avaliadores-externos)
+    - [🗳️ Tela de Votação](#🗳️-tela-de-votação)
+- [🧱 Arquitetura](#🧱-arquitetura)
+    - [✨ Estrutura de Pastas Front end](#✨-estrutura-de-pastas-front-end)
+    - [⚙️ Estrutura de Pastas Back end](#⚙️-estrutura-de-pastas-back-end)
+    - [🔄 Fluxo de Dados](#🔄-fluxo-de-dados)
+    - [🏗️ Diagrama de Arquitetura](#🏗️-diagrama-de-arquitetura)
+- [📖 Documentação da API](#📖-documentação-da-api)
+    - [📍 Endpoints](#📍-endpoints)
+        - [**Votação Pública**](#votação-pública)
+        - [**Votação Interna**](#votação-interna)
+    - [📝 Swagger](#📝-swagger)
+- [📝 Licença](#📝-licença)
+- [👥 Autores](#👥-autores)
+
 ## 📖 Descrição do Projeto
 
 Este projeto consiste no desenvolvimento de um sistema de votação para a faculdade, permitindo dois tipos de votação:
@@ -26,14 +51,40 @@ Este projeto consiste no desenvolvimento de um sistema de votação para a facul
 
 O sistema deve ser seguro, acessível e funcional tanto para usuários internos (alunos e professores) quanto para o público externo. Além disso, o sistema contará com **dashboards e relatórios** detalhados para garantir transparência e permitir auditorias.
 
-## Índice
-- [Descrição do Projeto](#-descrição-do-projeto)
+
 
 ## 🛠️ Tecnologias e Ferramentas Utilizadas
+**Organização e Planejamento**
+<div>
+    <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white">
+    <img src="https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=WhatsApp&logoColor=white">
+</div>
+
 **Front end:**
-- JavaScript | React.js | Next.js | Tailwind | ESLint | npm | Docker
+<div>
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+    <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white">
+    <img src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white">
+    <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
+    <img src="https://img.shields.io/badge/Docker%20Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+    <img src="https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white">
+</div>
+
 **Back end:**
-- NestJS | Prisma | PostgreSQL | TypeScript | Swagger | Jest | ESLint | Prettier | npm | Docker
+<div>
+    <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white">
+    <img src="https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=white">
+    <img src="https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white">
+    <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white">
+    <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white">
+    <img src="    https://img.shields.io/badge/Jest-C21325?style=for-the-badge&logo=jest&logoColor=white">
+    <img src="https://img.shields.io/badge/eslint-3A33D1?style=for-the-badge&logo=eslint&logoColor=white">
+    <img src="https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E">
+    <img src="https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white">
+    <img src="https://img.shields.io/badge/Docker%20Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+</div>
 
 ## ⚙️ Como Rodar a Votação
 
@@ -168,8 +219,8 @@ Além disso, o avaliador pode deixar um comentário opcional.
 - Para aluno e convidado, a tela conterá apenas o botão "Votar".
 - Para avaliador, além do botão de votar, será necessário responder os dois critérios de avaliação com a classificação de 1 a 5 estrelas e um comentário opcional.
 
-## Arquitetura
-### Estrutura de Pastas Front end
+## 🧱 Arquitetura
+### ✨ Estrutura de Pastas Front end
 ```plaintext
 votacao-fe/
 ├── node_modules/               # Dependências do projeto
@@ -208,7 +259,7 @@ votacao-fe/
 ├── postcss.config.mjs          # Configuração do PostCSS
 └── README.md                   # Documentação do projeto
 ```
-### Estrutura de Pastas Back end
+### ⚙️ Estrutura de Pastas Back end
 ```plaintext
 votacao-be/
 ├── prisma/                     # Configurações e scripts do Prisma
@@ -517,13 +568,15 @@ graph TD
 
 ---
 
-### Swagger
+### 📝 Swagger
 Acesse a documentação interativa da API no Swagger:
 - **URL**: [http://localhost:3000/api](http://localhost:3000/api)
 
 ## 📝 Licença
 
 Este projeto está licenciado sob a licença **MIT**. Isso significa que você pode usar, copiar, modificar, mesclar, publicar, distribuir, sublicenciar e/ou vender cópias do software, desde que mantenha o aviso de copyright original. Para mais detalhes, consulte o arquivo [LICENSE](./LICENSE).
+
+<img src="https://img.shields.io/badge/MIT-green?style=for-the-badge">
 
 ---
 
