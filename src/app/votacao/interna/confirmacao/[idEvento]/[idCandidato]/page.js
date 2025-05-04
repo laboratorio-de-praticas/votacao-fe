@@ -134,7 +134,7 @@ const ConfirmationPage = ({ params: paramsPromise }) => {
   };
 
   return (
-    <div className="p-4 md:p8 w-full lg:pt-28 lg:px-16">
+    <>
       <Header text={"REPRESENTANTES"} />
       <div className="flex flex-col w-full md:px-24 gap-8 mt-6 md:gap-12 md:mt-16 md:mb-16 md:justify-stretch md:self-center">
         <div className="flex justify-center">
@@ -164,7 +164,7 @@ const ConfirmationPage = ({ params: paramsPromise }) => {
         ></Button>
       </div>
       <ConfirmModal ref={modalRef} onConfirm={confirmVote} />
-    </div>
+    </>
   );
 };
 
