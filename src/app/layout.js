@@ -1,15 +1,6 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 export const metadata = {
   title: "Votação",
@@ -19,11 +10,26 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="pt-br">
-      <body
-        cz-shortcut-listen="true"
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >{children}
+      <body className="font-verdana h-[100dvh]">
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <div className="flex-1">
+            <main className="flex flex-col flex-grow items-center justify-start">
+              <div className="flex flex-col w-5/6 my-4 md:mt-16">
+                {children}
+              </div>
+            </main>
+          </div>
+          <Footer />
+        </div>
       </body>
     </html>
   );
+}
+
+// Adicionando um fallback para redirecionar caso a rota não seja encontrada
+export function generateStaticParams() {
+  return [
+    { id: 'default' },
+  ];
 }
